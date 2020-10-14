@@ -6,10 +6,11 @@ html,
 body {
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 body {
-    font-family: "Helvetica Neue", sans-serif;
+    font: 14px 'Helvetica Neue', Helvetica, sans-serif;
     line-height: 1.4em;
     background-color: #f5f5f5;
     color: #333333;
@@ -23,11 +24,7 @@ body {
     color: #e8d4d7;
     font-size: 100px;
     line-height: 20px;
-}
-
-.noteListMain {
-   display: flex;
-    justify-content: center;
+    font-weight: 100;
 }
 
 .note-task, button {
@@ -54,6 +51,7 @@ button {
 label {
     color: #e6e6e6;
 }
+
 .button-mark + label {
     width: 60px;
     height: 34px;
@@ -93,7 +91,7 @@ label {
 .button-mark-false + label:before {
     content: '❯';
     font-size: 22px;
-    color: #000;
+    color: #727272;
     padding: 10px 27px 10px 85px;
 }
 
@@ -102,10 +100,19 @@ ul {
     padding: 0;
     margin: 0;
 }
-.noteList li {
+.note-list li {
     display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     justify-content: start;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
     align-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     text-align: left;
     background-color: #fff;
     position: relative;
@@ -113,74 +120,128 @@ ul {
     border-bottom: 1px solid #ededed;
     width: 550px;
     text-decoration-color: #f5f5f5;
-    z-index: 100;
 }
+
 
 .note-header-task {
     border-left: none;
     border-right: none;
     border-top: none;
     font-size: 24px;
+    color:#4d4d57;
     padding: 16px 16px 16px 60px;
     width: 550px;
     box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
 }
 
-::placeholder{
+.note-header-task::placeholder{
     color: #e7eef5;
+    font-style: italic;
 }
 
-/*.checkbox-round {*/
-    /*position: relative;*/
-
-/*}*/
-
-/*.checkbox-round label {*/
-    /*background-color: #fff;*/
-    /*border: 1px solid #ccc;*/
-    /*border-radius: 50%;*/
-    /*cursor: pointer;*/
-    /*height: 28px;*/
-    /*left: 0;*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*width: 28px;*/
-/*-webkit-appearance: none;*/
-/*appearance: none;*/
-/*}*/
-
-/*.checkbox-round label:after {*/
-    /*border: 2px solid #5ec2ae;*/
-    /*border-top: none;*/
-    /*border-right: none;*/
-    /*content: "";*/
-    /*height: 6px;*/
-    /*left: 7px;*/
-    /*opacity: 0;*/
-    /*position: absolute;*/
-    /*top: 8px;*/
-    /*transform: rotate(-45deg);*/
-    /*width: 12px;*/
-
-/*}*/
-
-/*.checkbox-round input[type="checkbox"] {*/
-    /*visibility: hidden;*/
-/*}*/
-
-
-/*.checkbox-round input[type="checkbox"]:checked + label:after {*/
-    /*opacity: 1;*/
-/*}*/
-
 /*middle*/
-.text-note {
+.checkbox-round {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    align-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    padding-left: 20px;
+
+}
+
+.checkbox-round label {
+    display: none;
+}
+
+.checkbox-none {
+    display: none;
+}
+.checkbox-block {
+    display: block;
+    width: 25px;
+    height: 25px;
+}
+
+.checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.checkbox+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+
+.checkbox+label::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid #e9e9e9;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    border-radius: 50%;
+}
+
+.checkbox:checked+label::before {
+    border-color: #d2e6e2;
+    background-image: url("https://cdn.icon-icons.com/icons2/894/PNG/128/Tick_Mark_icon-icons.com_69146.png");
+}
+
+.checkbox-round {
+    /*max-height: 100%;*/
+    /*height: auto;*/
+}
+
+.list-input {
+    /*height: 100%;*/
+    /*height: 60px;*/
     text-align: left;
-    padding: 15px 15px 15px 35px;
     display: block;
     line-height: 1.2;
     word-break: break-all;
     transition: color 0.4s;
+    font-size: 24px;
+    width: 493px;
+    padding-right: 35px;
+    resize: none;
+    overflow: hidden;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+
+}
+
+
+.read-only-note {
+    border: none;
+    padding-left: 20px;
+    word-break: break-all;
+    outline: none;
+
+}
+
+.edit-note {
+    border: 1px solid #999;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    /*min-height: 60px;*/
+    width: 492px;
+    padding-left: 20px;
+    overflow: hidden;
+    outline: none;
+}
+
+.close-none {
+    display: none;
 }
 
 .close {
@@ -205,15 +266,16 @@ button:focus {
     outline: none;
 }
 
-.checkbox {
-    border-radius: 100px;
-}
-
-
 /*footer*/
 .footer {
     display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     align-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     position: relative;
     color: #777;
     padding: 20px 15px;
@@ -221,8 +283,8 @@ button:focus {
     text-align: center;
     background-color: #fff;
     border-top: 1px solid #e6e6e6;
-
 }
+
 .footer:before {
     content: '';
     position: absolute;
@@ -233,27 +295,30 @@ button:focus {
     overflow: hidden;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
-
+.todo-count{
+   position: absolute;
+}
 .todo-count strong {
     font-weight: 300;
-    font-size: 14px;
 }
 
 .filters {
     display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     padding-left: 110px;
     z-index: 100;
 }
 
 .filters li {
-    padding-right: 25px;
+    padding-left: 25px;
 }
 
 .filters li a {
     text-decoration: none;
     color: #777;
     padding: 3px;
-    font-size: 14px;
     border: 1px solid transparent;
 }
 
@@ -264,6 +329,7 @@ button:focus {
 }
 
 .button-clear {
+    padding-left: 45px;
     font-size: 14px;
     color: #777;
     cursor: pointer;

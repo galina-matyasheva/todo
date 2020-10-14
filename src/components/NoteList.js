@@ -3,18 +3,10 @@ import React, {Component} from 'react'
 class NoteList extends Component {
 
 
-    //для фокус. на поле ввода
-    componentDidUpdate() {
-        this.props.inputElement.current.focus()
-    }
-
-
     render() {
 
-        // console.log(this.props.allItems);
-
         return (
-            <div className='noteListMain'>
+            <div className='note-list-main'>
                 <div className='note-header'>
 
                     {this.props.allItems.length === 0 ? null : <button className= {this.props.toggleAllColor() ? 'button-mark-false': 'button-mark'}  onClick={()=>{this.props.toggleAll()}}>mark</button>}

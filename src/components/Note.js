@@ -1,34 +1,41 @@
 import React, {Component} from "react"
 
 class Note extends Component {
-//     constructor(){
-//     super()
-//     // this.createTasks = this.createTasks.bind(this)
-// }
-
 
     render() {
         const { entry} = this.props;
-        // console.log(entry);
 
 
         return (
 
             <li key={entry.key} style={{
-                textDecoration: entry.checked ? 'line-through #D9D9D9' : 'none'}} >
+                textDecoration: entry.checked && (this.props.editableKey !== `${entry.key}-border-elem`) ? 'line-through #D9D9D9' : 'none'}} >
 
                     <div className="checkbox-round">
-                    <label>
-                        <input type="checkbox" id="checkbox"  checked={entry.checked} onClick={()=> this.props.handleOnClicked(entry)}/>
-                    </label>
-                    </div>
 
-                <label className='text-note' style={{
-                    color: entry.checked ? '#D9D9D9' : '#000',
-                }}>
-                    {entry.text}
-                </label>
-                <button type="button" className="close" onClick={() => this.props.deleteItem(entry.key)}>&times;</button>
+                        <input className={this.props.editableKey === `${entry.key}-border-elem` ? 'checkbox-none checkbox':'checkbox-block checkbox'}  type="checkbox" id={`${entry.key}-checkbox`}  checked={entry.checked}  onClick={()=> this.props.handleOnClicked(entry)}/>
+                    <label for={`${entry.key}-checkbox`}></label>
+
+                        <input
+                            id = {`${entry.key}-border-elem`}
+                            type='textarea'
+                            className= {this.props.editableKey === `${entry.key}-border-elem` ? 'list-input edit-note': 'list-input read-only-note'}
+                            style={{color: entry.checked && (this.props.editableKey !== `${entry.key}-border-elem`)? '#D9D9D9' : '#4d4d57', height: '50px',}}
+                            value={entry.text}
+                            onChange={(event) => this.props.handleEdit(entry.key, event.target.value)}
+                            onDoubleClick={(event) => this.props.onDoubleClickInput(event,`${entry.key}-border-elem`)}
+                        />
+
+                        {/*<textarea*/}
+                            {/*id = {`${entry.key}-border-elem`}*/}
+                            {/*className= {this.props.editableKey === `${entry.key}-border-elem` ? 'list-input edit-note': 'list-input read-only-note'}*/}
+                            {/*style={{color: entry.checked && (this.props.editableKey !== `${entry.key}-border-elem`)? '#D9D9D9' : '#4d4d57'}}*/}
+                            {/*value={entry.text}*/}
+                            {/*onChange={(event) => this.props.handleEdit(entry.key, event.target.value)}*/}
+                            {/*onDoubleClick={(event) => this.props.onDoubleClickInput(event,`${entry.key}-border-elem`)}*/}
+                        {/*/>*/}
+                        <button type="button" className={this.props.editableKey === `${entry.key}-border-elem` ? 'close-none':'close'} onClick={() => this.props.deleteItem(entry.key)}>&times;</button>
+                    </div>
             </li>
         )
     }
