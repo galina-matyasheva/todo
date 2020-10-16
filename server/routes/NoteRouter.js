@@ -13,6 +13,7 @@ router.get('/notes', NoteController.getNoteList);
 router.delete('/notes', NoteController. deleteClearNotes);
 router.get('/note/filter/:completed', NoteController.getFilter);
 router.post('/user/login', UserController.login);
+router.post('/user/registerUser', UserController.registerUser);
 
 
 module.exports = router;

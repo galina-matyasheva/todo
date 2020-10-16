@@ -13,6 +13,7 @@ export const getNoteById = id => api.get(`/note/${id}`);
 export const  deleteClearNotes = () => api.delete(`/notes`);
 export const  getFilter = completed => api.get(`/note/filter/${completed}`);
 export const login = payload => api.post(`/user/login`, payload);
+export const registerUser = payload => api.post(`/user/registerUser`, payload);
 
 const apis = {
     createNote,
@@ -22,7 +23,8 @@ const apis = {
     getNoteById,
     deleteClearNotes,
     getFilter,
-    login
+    login,
+    registerUser
 };
 
 export default apis

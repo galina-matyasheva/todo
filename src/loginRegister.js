@@ -18,7 +18,7 @@ class loginRegister extends Component {
 
         await api.login(payload).then(res => {
             console.log(`user logged successfully`);
-
+            window.alert(res.data);
             // this.setState({
             //
             // });
@@ -46,7 +46,7 @@ class loginRegister extends Component {
     render() {
         return(
             <div>
-                <form className='register-form'>
+                {/*<form className='register-form'>*/}
                     <div className="imgcontainer">
                         <img src={registerForm} alt="Avatar" className="avatar" />
                     </div>
@@ -56,7 +56,7 @@ class loginRegister extends Component {
                         <input className='password' type="password" maxLength="25" size="40" name="password" onChange={(e)=>this.onChangePassword(e)}/></p>
                     <button className='ok'  onClick={()=>this.onClickLogin()}>OK</button>
                     <button className='register'>SIGN UP</button>
-                </form>
+                {/*</form>*/}
             </div>
         )
     }
