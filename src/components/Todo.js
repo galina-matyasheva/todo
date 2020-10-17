@@ -15,7 +15,8 @@ class Todo extends Component {
         allItems: [],
         activeElem: 'All',
         editableKey: '',
-        rememberMe: false
+        rememberMe: false,
+        userId: ''
     };
 
 //вводим новое значение
@@ -40,7 +41,10 @@ class Todo extends Component {
             //const items = [...this.state.items, newItem];//деструктуриз не пустого массива. добавляется новый элемент
             const allItems = [...this.state.allItems, newItem];
 
-            const payload = { text: newItem.text, completed: newItem.checked};//передаем на сервер
+            const userId = localStorage.getItem('userId');
+            console.log(userId);
+
+            const payload = { text: newItem.text, completed: newItem.checked, userId: userId};//передаем на сервер
 
             await api.createNote(payload).then(res => {
                 console.log(`note inserted successfully` + res.data.id);
@@ -55,6 +59,12 @@ class Todo extends Component {
             // this.filter();
         }
     };
+    //устанавливаем user ID, присваеваем
+    // setUserId = userId => {
+    //     this.state.userId = userId;
+    // };
+
+
 
     //удаляем элемент
     deleteItem = async key => {
@@ -231,7 +241,7 @@ class Todo extends Component {
     onAllClick = async () => {
         console.log("AllClick");
 
-        await api.getNoteList().then(res => {
+        await api.getNoteList(localStorage.getItem('userId')).then(res => {
             console.log(`notes loaded successfully`);
             console.log(res.data.data);
             const newAllItems = res.data.data.map((note) => {
@@ -378,6 +388,7 @@ class Todo extends Component {
                     allItems = {this.state.allItems}
                     checkForOneThroughElement = {this.checkForOneThroughElement}//вычеркнутый элемент для появления кнопки completed
                 /> }
+
 
             </div>
         )

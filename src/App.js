@@ -7,12 +7,17 @@ import SignUp from "./SignUp";
 
 class App extends Component {
 
+
+
+
     render() {
 
         return(
 
                 <Switch>
-                    <Route path='/todo' component={Todo} />
+                    <Route path='/todo'>
+                        <Todo/>
+                    </Route>
                 <Route path='/login' component={loginRegister}/>
                 <Route path='/register' component={SignUp}/>
 

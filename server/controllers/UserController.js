@@ -3,7 +3,7 @@ const User = require('../models/user');
 login =  async (req, res) => {
     console.log('login', req.body.login, req.body.password);
 
-    await User.find({deleted: false,
+    await User.findOne({deleted: false,
                      name: req.body.login,
                      password: req.body.password
     }, (err, user) => {
@@ -12,7 +12,7 @@ login =  async (req, res) => {
             return res.status(400).json({ success: false, error: err })
         }
         console.log(user);
-        return res.status(200).json({ success: true, data: user })
+        return res.status(200).json({ success: true, user: user })
     }).catch(err => console.log(err))
 
 };

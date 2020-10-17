@@ -3,22 +3,41 @@ import "./loginRegister.css"
 import registerForm from './register-form.jpg'
 import api from "./api";
 
+
+
+
+
 class loginRegister extends Component {
 
     state = {
        login: '',
-        password: ''
+        password: '',
+        user: {}
+
     };
 
 
     //обработчик для кнопки ок
     onClickLogin = async ()=> {
+
         console.log('------------onClickLogin');
+
         const payload = { login: this.state.login, password: this.state.password};//передаем на сервер
 
         await api.login(payload).then(res => {
             console.log(`user logged successfully`);
-            window.alert(res.data);
+           // window.alert(res.user);
+             console.log(res.data.user, '---data-user')
+           //  console.log(res.data, '------data');
+           //  console.log(res.user, '----user');
+           //  console.log(res, '----res');
+            //this.state.user = res.data.user;
+            console.log(res.data.user._id, '------');
+            localStorage.setItem('userId', res.data.user._id);
+
+
+          this.props.history.push('/todo');
+
             // this.setState({
             //
             // });
@@ -39,6 +58,12 @@ class loginRegister extends Component {
         this.setState({
             password: e.target.value
         })
+    };
+
+    getUser = () => {
+
+        return this.state.user;
+
     };
 
 

@@ -101,7 +101,8 @@ getNoteById = async (req, res) => {
 
 getNoteList = async (req, res) => {
     console.log('get Note list: ');
-    await Note.find({}, (err, notes) => {
+    console.log(req.params.userId);
+    await Note.find({userId: req.params.userId}, (err, notes) => {
         if (err) {
             console.log('error during get Note list: ' + err);
             return res.status(400).json({ success: false, error: err })
