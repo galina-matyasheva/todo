@@ -269,7 +269,8 @@ class Todo extends Component {
 
 
         const completed = false;
-        await api.getFilter(completed).then(res => {
+        const userId = localStorage.getItem('userId');
+        await api.getFilter(userId,completed).then(res => {
             console.log(`notes loaded in Active filter`);
             console.log(res.data.data);
             const newItems = res.data.data.map((note) => {
@@ -304,7 +305,8 @@ class Todo extends Component {
         // })
 
         const completed = true;
-        await api.getFilter(completed).then(res => {
+        const userId = localStorage.getItem('userId');
+        await api.getFilter(userId, completed).then(res => {
             console.log(`notes loaded in Completed filter`);
             console.log(res.data.data);
             const newItems = res.data.data.map((note) => {

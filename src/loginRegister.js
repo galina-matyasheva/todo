@@ -5,8 +5,6 @@ import api from "./api";
 
 
 
-
-
 class loginRegister extends Component {
 
     state = {
@@ -26,15 +24,11 @@ class loginRegister extends Component {
 
         await api.login(payload).then(res => {
             console.log(`user logged successfully`);
-           // window.alert(res.user);
-             console.log(res.data.user, '---data-user')
-           //  console.log(res.data, '------data');
-           //  console.log(res.user, '----user');
-           //  console.log(res, '----res');
-            //this.state.user = res.data.user;
-            console.log(res.data.user._id, '------');
-            localStorage.setItem('userId', res.data.user._id);
+            console.log(res.data.userId, '------userId');
+            localStorage.setItem('userId', res.data.userId);
+            console.log(res.data.token, '------token');
 
+            sessionStorage.setItem('token',res.data.token);// установка токена в сессию
 
           this.props.history.push('/todo');
 
@@ -60,10 +54,9 @@ class loginRegister extends Component {
         })
     };
 
-    getUser = () => {
-
-        return this.state.user;
-
+    onClickSignUp = () => {
+        console.log('---------onClickSignUp')
+        this.props.history.push('/register');
     };
 
 
@@ -80,7 +73,7 @@ class loginRegister extends Component {
                     <p><strong>Password:</strong>
                         <input className='password' type="password" maxLength="25" size="40" name="password" onChange={(e)=>this.onChangePassword(e)}/></p>
                     <button className='ok'  onClick={()=>this.onClickLogin()}>OK</button>
-                    <button className='register'>SIGN UP</button>
+                    <button className='register' onClick={()=>this.onClickSignUp()}>SIGN UP</button>
                 {/*</form>*/}
             </div>
         )

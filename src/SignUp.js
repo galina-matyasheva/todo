@@ -10,13 +10,11 @@ class SignUp extends Component {
         const payload = { name: this.state.name, password: this.state.password, email: this.state.email};//передаем на сервер
 
         await api.registerUser(payload).then(res => {
-            console.log(`user register successfully`);
-            window.alert(res.data.user.name);
-            // this.setState({
-            //
-            // });
+            console.log(`user register successfully`, res.data.id);
+            window.alert('user register successfully');
+
         }, error => window.alert("error" + error));
-        // this.filter();
+
     };
 
     onChangeName= e => {

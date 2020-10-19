@@ -1,8 +1,12 @@
 const Note = require('../models/note')
+const jwt = require('jsonwebtoken');
 
 createNote = (req, res) => {
     const body = req.body
     console.log('create note' + req.body);
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -37,7 +41,9 @@ createNote = (req, res) => {
 updateNote = async (req, res) => {
     const body = req.body;
     console.log('update note' + req.params.id);
-
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     console.log(req.body);
     if (!body) {
         return res.status(400).json({
@@ -77,6 +83,9 @@ updateNote = async (req, res) => {
 
 deleteNote = async (req, res) => {
     console.log('delete Note' + req.params.id);
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     await Note.findOneAndDelete({ _id: req.params.id }, (err, note) => {
         if (err) {
             console.log('error during note deleting' + err);
@@ -88,7 +97,9 @@ deleteNote = async (req, res) => {
 
 getNoteById = async (req, res) => {
     console.log('get Note by id: ' + req.params.id);
-
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     await Note.findOne({ _id: req.params.id }, (err, note) => {
         if (err) {
             console.log('error during get Note by id: ' + err);
@@ -102,6 +113,9 @@ getNoteById = async (req, res) => {
 getNoteList = async (req, res) => {
     console.log('get Note list: ');
     console.log(req.params.userId);
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     await Note.find({userId: req.params.userId}, (err, notes) => {
         if (err) {
             console.log('error during get Note list: ' + err);
@@ -114,6 +128,9 @@ getNoteList = async (req, res) => {
 deleteClearNotes = async (req, res) => {
     console.log('delete completed Notes');
     // console.log('delete completed Notes' + req.params);
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
     await Note.deleteMany({
         completed: true
     }, (err, note) => {
@@ -133,10 +150,12 @@ deleteClearNotes = async (req, res) => {
 };
 
 getFilter =  async (req, res) => {
-    console.log('get filter ',req.params.completed );
-
+    console.log('get filter ',req.params.completed, req.params.userId );
+    if (!verifyToken(req, res)) {
+        return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+    }
         console.log('get Note list: ');
-        await Note.find({completed: req.params.completed}, (err, notes) => {
+        await Note.find({completed: req.params.completed, userId: req.params.userId}, (err, notes) => {
             if (err) {
                 console.log('error during get filter: ' + err);
                 return res.status(400).json({ success: false, error: err })
@@ -146,8 +165,29 @@ getFilter =  async (req, res) => {
 
 };
 
-
-
+verifyToken = (req, res) => {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    console.log("router use", token);
+    if (token) {
+        jwt.verify(token, 'superSecret', function (err, decoded) {
+            if (err) {
+                //return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
+                return false;
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        // return res.json({
+        //     status: 403,
+        //     success: false,
+        //     message: 'No token provided.'
+        // });
+        return false;
+    }
+    return true;
+};
 
 module.exports = {
     createNote,
