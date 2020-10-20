@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 createNote = (req, res) => {
     const body = req.body
-    console.log('create note' + req.body);
+   // 'create note' + req.body
     if (!verifyToken(req, res)) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
@@ -16,7 +16,7 @@ createNote = (req, res) => {
 
     const note = new Note(body);
 
-    if (!note) {
+    if (!note || !note.userId) {
         return res.status(400).json({ success: false, error: err })
     }
 
@@ -40,11 +40,11 @@ createNote = (req, res) => {
 
 updateNote = async (req, res) => {
     const body = req.body;
-    console.log('update note' + req.params.id);
+   //'update note' + req.params.id
     if (!verifyToken(req, res)) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
-    console.log(req.body);
+   //req.body
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -82,7 +82,7 @@ updateNote = async (req, res) => {
 };
 
 deleteNote = async (req, res) => {
-    console.log('delete Note' + req.params.id);
+    //'delete Note' + req.params.id
     if (!verifyToken(req, res)) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
@@ -96,7 +96,7 @@ deleteNote = async (req, res) => {
 };
 
 getNoteById = async (req, res) => {
-    console.log('get Note by id: ' + req.params.id);
+   // 'get Note by id: ' + req.params.id
     if (!verifyToken(req, res)) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
@@ -111,9 +111,9 @@ getNoteById = async (req, res) => {
 }
 
 getNoteList = async (req, res) => {
-    console.log('get Note list: ');
-    console.log(req.params.userId);
-    if (!verifyToken(req, res)) {
+    //'get Note list: '
+   // req.params.userId
+    if (!verifyToken(req, res) || !req.params.userId) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
     await Note.find({userId: req.params.userId}, (err, notes) => {
@@ -126,8 +126,8 @@ getNoteList = async (req, res) => {
 }
 
 deleteClearNotes = async (req, res) => {
-    console.log('delete completed Notes');
-    // console.log('delete completed Notes' + req.params);
+   // 'delete completed Notes'
+    // 'delete completed Notes' + req.params
     if (!verifyToken(req, res)) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
@@ -150,11 +150,11 @@ deleteClearNotes = async (req, res) => {
 };
 
 getFilter =  async (req, res) => {
-    console.log('get filter ',req.params.completed, req.params.userId );
-    if (!verifyToken(req, res)) {
+   // 'get filter ',req.params.completed, req.params.userId
+    if (!verifyToken(req, res) || !req.params.userId) {
         return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
     }
-        console.log('get Note list: ');
+        //'get Note list: '
         await Note.find({completed: req.params.completed, userId: req.params.userId}, (err, notes) => {
             if (err) {
                 console.log('error during get filter: ' + err);
@@ -167,24 +167,18 @@ getFilter =  async (req, res) => {
 
 verifyToken = (req, res) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.token;
-    console.log("router use", token);
+   // "router use", token
     if (token) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
             if (err) {
-                //return res.json({status: 403, success: false, message: 'Failed to authenticate token.'});
                 return false;
             } else {
                 req.decoded = decoded;
                 console.log(decoded);
-                //next();
             }
         });
     } else {
-        // return res.json({
-        //     status: 403,
-        //     success: false,
-        //     message: 'No token provided.'
-        // });
+
         return false;
     }
     return true;

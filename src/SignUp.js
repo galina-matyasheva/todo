@@ -6,33 +6,34 @@ import api from "./api";
 
 class SignUp extends Component {
     onClickRegister = async ()=> {
-        console.log('------------onClickLogin');
+        //'------------onClickLogin'
         const payload = { name: this.state.name, password: this.state.password, email: this.state.email};//передаем на сервер
 
         await api.registerUser(payload).then(res => {
-            console.log(`user register successfully`, res.data.id);
+           // `user register successfully`, res.data.id
             window.alert('user register successfully');
+            this.props.history.push('/login');
 
         }, error => window.alert("error" + error));
 
     };
 
     onChangeName= e => {
-        console.log('----------onChangeName')
+        //'----------onChangeName'
         this.setState({
             name: e.target.value
         })
     };
 
     onChangeEmail= e => {
-        console.log('----------onChangeEmail')
+       //'----------onChangeEmail'
         this.setState({
             email: e.target.value
         })
     };
 
     onChangePassword = e => {
-        console.log('----------onChangePassword')
+        //'----------onChangePassword'
         this.setState({
             password: e.target.value
         })
@@ -43,7 +44,6 @@ class SignUp extends Component {
 
         return (
             <div>
-                {/*<form>*/}
                     <div className="register-container">
                         <h1>Sign Up</h1>
                         <p>Please fill in this form to create an account.</p>
@@ -75,7 +75,6 @@ class SignUp extends Component {
                                 <button className="register-btn sign-up-btn" onClick={()=> this.onClickRegister()}>Sign Up</button>
                             </div>
                         </div>
-                {/*</form>*/}
             </div>
         )
 

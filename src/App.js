@@ -19,9 +19,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route path='/todo'>
-                        <Todo/>
-                    </Route>
+                    <Route path='/todo' component={Todo}/>
                     <Route path='/login' component={loginRegister}/>
                     <Route path='/register' component={SignUp}/>
                     <Route path="/"  render={props => (

@@ -7,16 +7,14 @@ const api = axios.create({
 
 api.interceptors.request.use(
     config => {
-        console.log('axios interceptor');
+       // 'axios interceptor'
 
-        //const { origin } = new URL(config.url);
-        //const allowedOrigins = [apiUrl];
-        const token = sessionStorage.getItem('token');
-        //if (allowedOrigins.includes(origin)) {
-        console.log(token, 'axios interceptor');
+        const token = localStorage.getItem('token');
+
+        //token, 'axios interceptor';
             config.headers.authorization = `Bearer ${token}`;
             config.headers.token = token;
-        //}
+
         return config;
     },
     error => {

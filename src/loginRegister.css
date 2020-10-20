@@ -1,18 +1,15 @@
-.register-form {
-    /*border: 1px solid ;*/
+.login, .password {
+    display: inline-block;
+    margin: 8px 0;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #ccc;
 }
 
-.login, .password {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
 .imgcontainer {
-    text-align: center;
     margin: 24px 0 12px 0;
+    text-align: center;
 }
 
 img.avatar {
@@ -20,15 +17,14 @@ img.avatar {
     border-radius: 50%;
 }
 
-
 .ok, .register {
-    background-color: #41AD48;
-    color: white;
-    padding: 14px 20px;
     margin: 8px 0;
-    border: none;
-    cursor: pointer;
+    padding: 14px 20px;
     width: 100%;
+    cursor: pointer;
+    color: white;
+    background-color: #41AD48;
+    border: none;
 }
 
 .ok:hover, .register:hover {

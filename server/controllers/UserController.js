@@ -2,7 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 login =  async (req, res) => {
-    console.log('login', req.body.login, req.body.password);
+    //'login', req.body.login, req.body.password
 
     await User.findOne({deleted: false,
                      name: req.body.login,
@@ -12,7 +12,7 @@ login =  async (req, res) => {
             console.log('error during get filter: ' + err);
             return res.status(400).json({ success: false, error: err })
         }
-        console.log(user);
+        //user
         if (user) {
             // token
             const payload = {
@@ -33,7 +33,7 @@ login =  async (req, res) => {
 };
 
 registerUser = async (req, res) => {
-    console.log('registerUser', req.body.name, req.body.password, req.body.email);
+   //'registerUser', req.body.name, req.body.password, req.body.email
 
     const user = new User({ name: req.body.name, password: req.body.password, email: req.body.email, deleted: false
     });
@@ -41,7 +41,7 @@ registerUser = async (req, res) => {
     user
         .save()
         .then(() => {
-            console.log(user);
+           // user
             return res.status(201).json({
                 success: true,
                 id: user._id,
