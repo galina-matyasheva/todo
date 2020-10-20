@@ -166,7 +166,7 @@ getFilter =  async (req, res) => {
 };
 
 verifyToken = (req, res) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.token;
     console.log("router use", token);
     if (token) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
@@ -175,7 +175,8 @@ verifyToken = (req, res) => {
                 return false;
             } else {
                 req.decoded = decoded;
-                next();
+                console.log(decoded);
+                //next();
             }
         });
     } else {

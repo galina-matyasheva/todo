@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 
-axios.interceptors.request.use(
+api.interceptors.request.use(
     config => {
         console.log('axios interceptor');
 
@@ -15,6 +15,7 @@ axios.interceptors.request.use(
         //if (allowedOrigins.includes(origin)) {
         console.log(token, 'axios interceptor');
             config.headers.authorization = `Bearer ${token}`;
+            config.headers.token = token;
         //}
         return config;
     },

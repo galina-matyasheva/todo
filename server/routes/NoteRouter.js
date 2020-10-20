@@ -2,6 +2,7 @@ const express = require('express');
 
 const NoteController = require('../controllers/NoteController');
 const UserController = require('../controllers/UserController');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
