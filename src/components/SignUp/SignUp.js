@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import "./SignUp/SignUp.css"
-import register from './SignUp/SignUp.jpg'
-import api from "../api";
+import "./SignUp.css"
+import register from './SignUp.jpg'
+import api from "../../api";
 
 
 class SignUp extends Component {

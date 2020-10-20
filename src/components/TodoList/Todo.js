@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import NoteList from './TodoList/NoteList'
-import './TodoList/Todo.css'
-import Note from './TodoList/Note'
-import Filter from './TodoList/Filter'
-import api from '../api'
+import NoteList from './NoteList'
+import './Todo.css'
+import Note from './Note'
+import Filter from './Filter'
+import api from '../../api'
 
 
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import "./SignIn/SignIn.css"
-import registerForm from './SignIn/SignIn.jpg'
-import api from "../api";
+import "./SignIn.css"
+import registerForm from './SignIn.jpg'
+import api from "../../api";
 import jwt from "jsonwebtoken";
 
 

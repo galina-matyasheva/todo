@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import Todo from './components/Todo'
+import Todo from './components/TodoList/Todo'
 import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom'
-import signIn from './components/SignIn'
-import SignUp from "./components/SignUp";
+import signIn from './components/SignIn/SignIn'
+import SignUp from "./components/SignUp/SignUp";
 
 
 class App extends Component {
