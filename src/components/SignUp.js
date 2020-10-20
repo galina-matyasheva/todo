@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import "./SignUp.css"
-import register from './register.jpg'
-import api from "./api";
+import "./SignUp/SignUp.css"
+import register from './SignUp/SignUp.jpg'
+import api from "../api";
 
 
 class SignUp extends Component {
@@ -39,6 +39,10 @@ class SignUp extends Component {
         })
     };
 
+    onClickCancel = () => {
+        this.props.history.push('/login');
+    };
+
     render() {
 
 
@@ -62,16 +66,16 @@ class SignUp extends Component {
 
                             <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
                             <input className='register-password' type="password" placeholder="Repeat Password" name="psw-repeat" required/>
-
-                            <label htmlFor='remember'>
-                        <input className='register-remember' type="checkbox"  name="remember"/> Remember me
-                            </label>
+                             <p></p>
+                            {/*<label htmlFor='remember'>*/}
+                        {/*<input className='register-remember' type="checkbox"  name="remember"/> Remember me*/}
+                            {/*</label>*/}
 
                             <p>By creating an account you agree to our <a href="#">Terms
                                 & Privacy</a>.</p>
 
                             <div className="clearfix">
-                                <button className="register-btn cancel-btn">Cancel</button>
+                                <button className="register-btn cancel-btn" onClick={()=> this.onClickCancel()}>Cancel</button>
                                 <button className="register-btn sign-up-btn" onClick={()=> this.onClickRegister()}>Sign Up</button>
                             </div>
                         </div>

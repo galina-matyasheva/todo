@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import "./loginRegister.css"
-import registerForm from './register-form.jpg'
-import api from "./api";
+import "./SignIn/SignIn.css"
+import registerForm from './SignIn/SignIn.jpg'
+import api from "../api";
 import jwt from "jsonwebtoken";
 
 
-class loginRegister extends Component {
+class signIn extends Component {
 
     state = {
         login: '',
@@ -81,4 +81,4 @@ class loginRegister extends Component {
     }
 }
 
-export default loginRegister
+export default signIn

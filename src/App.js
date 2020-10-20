@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Todo from './components/Todo'
 import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom'
-import loginRegister from './loginRegister'
-import SignUp from "./SignUp";
+import signIn from './components/SignIn'
+import SignUp from "./components/SignUp";
 
 
 class App extends Component {
@@ -20,7 +20,7 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path='/todo' component={Todo}/>
-                    <Route path='/login' component={loginRegister}/>
+                    <Route path='/login' component={signIn}/>
                     <Route path='/register' component={SignUp}/>
                     <Route path="/"  render={props => (
                         this.checkAuth() ? (
