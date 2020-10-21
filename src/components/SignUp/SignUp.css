@@ -7,6 +7,15 @@
     border: none;
 }
 
+.mistake-email, .mistake-repeat-password {
+    display: inline-block;
+    margin: 5px 0 22px 0;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #f44336;
+    background: #e8d4d7;
+}
+
 .email:focus, .register-password:focus, .name:focus {
     background-color: #ddd;
     outline: none;
@@ -62,5 +71,15 @@ hr {
     .cancel-btn, .sign-up-btn {
         width: 100%;
     }
+}
+
+.errorMessage {
+    display: none;
+}
+
+.message {
+    display: block;
+    color: red;
+    font-weight: bold;
 }
 
