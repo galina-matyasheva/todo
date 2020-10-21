@@ -7,7 +7,10 @@ import api from "../../api";
 class SignUp extends Component {
     state = {
         errorMessageEmail: '',
-        errorMessagePassword: ''
+        errorMessageRepeatPassword: '',
+        errorMessagePassword: '',
+        errorMessageName: '',
+        error: ''
     };
 
     onClickRegister = async ()=> {
@@ -15,19 +18,49 @@ class SignUp extends Component {
         const payload = { name: this.state.name, password: this.state.password, email: this.state.email};//передаем на сервер
 
         await api.registerUser(payload).then(res => {
+            // if(!this.validateNullField) {
+            //     this.state.error = 'error'
+            // } else {
+            //     this.state.error = ''
+            // }
            // `user register successfully`, res.data.id
             window.alert('user register successfully');
             this.props.history.push('/login');
 
-        }, error => window.alert("error" + error));
+        // },  document.getElementById('error').innerText = 'fields are not filled'
+            }, error => this.state.error = "error123 " + error);
+        console.log(this.state.error);
 
     };
 
+
+
+    // validateNullField = (field) => {
+    //     if (null.test(field)){
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // };
+
     onChangeName= e => {
         //'----------onChangeName'
+        if (!this.validateName(e.target.value)) {
+            this.state.errorMessageName = 'Name must include latin letters and numbers';
+        } else {
+            this.state.errorMessageName = '';
+        }
         this.setState({
             name: e.target.value
         })
+    };
+
+    validateName = (name) => {
+        if (/^[a-zA-Z][a-zA-Z0-9-_\.]{0,20}$/.test(name)){
+            return true;
+        } else {
+            return false;
+        }
     };
 
     onChangeEmail= e => {
@@ -57,17 +90,30 @@ class SignUp extends Component {
 
     onChangePassword = e => {
         //'----------onChangePassword'
+        if (!this.validatePassword(e.target.value)) {
+            this.state.errorMessagePassword = 'Password must include lowercase, uppercase latin letters and numbers';
+        } else {
+            this.state.errorMessagePassword = '';
+        }
         this.setState({
             password: e.target.value
         })
     };
 
+    validatePassword = (password) => {
+        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     onChangeRepeatPassword = e => {
         //'----------onChangePassword'
        if (this.state.password === e.target.value){
-       this.state.errorMessagePassword = '';
+       this.state.errorMessageRepeatPassword = '';
     } else {
-           this.state.errorMessagePassword = 'passwords are not the same';
+           this.state.errorMessageRepeatPassword = 'passwords are not the same';
        }
         this.setState({
             repeatPassword: e.target.value
@@ -90,19 +136,23 @@ class SignUp extends Component {
                             <img src={register} alt="Avatar" className="avatar" />
                         </div>
                         <hr/>
+                        <p className={!this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
+
                         <label htmlFor="name"><b>Name</b></label>
                         <input className='name' type="text" placeholder="Enter Name" name="name" required onChange={(e)=>this.onChangeName(e)}/>
+                        <p className={!this.state.errorMessageName ? 'error-message' : 'message'}>{this.state.errorMessageName}</p>
 
                             <label htmlFor="email"><b>Email</b></label>
-                            <input className={this.state.errorMessageEmail === ''? 'email' : 'mistake-email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
-                            <p className={this.state.errorMessageEmail === ''? 'error-message' : 'message'}>{this.state.errorMessageEmail}</p>
+                            <input className={this.state.errorMessageEmail ? 'mistake-email' : 'email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
+                            <p className={!this.state.errorMessageEmail ? 'error-message' : 'message'}>{this.state.errorMessageEmail}</p>
 
                             <label htmlFor="psw"><b>Password</b></label>
-                            <input className='register-password' type="password" placeholder="Enter Password" name="psw" required onChange={(e)=>this.onChangePassword(e)}/>
+                            <input className={this.state.errorMessagePassword ? 'mistake-register-password' : 'register-password'} type="password" placeholder="Enter Password" name="psw" required onChange={(e)=>this.onChangePassword(e)}/>
+                        <p className={!this.state.errorMessagePassword ? 'error-message' : 'message'}>{this.state.errorMessagePassword}</p>
 
                             <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
-                            <input className= {this.state.errorMessagePassword === ''? 'register-password' : 'mistake-repeat-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
-                            <p className={this.state.errorMessagePassword === ''? 'error-message' : 'message'}>{this.state.errorMessagePassword}</p>
+                            <input className= {this.state.errorMessageRepeatPassword ? 'mistake-repeat-password' : 'register-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
+                            <p className={this.state.errorMessageRepeatPassword === ''? 'error-message' : 'message'}>{this.state.errorMessageRepeatPassword}</p>
 
                             <p>By creating an account you agree to our <a href="#">Terms
                                 & Privacy</a>.</p>

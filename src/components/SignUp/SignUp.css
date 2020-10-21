@@ -7,7 +7,7 @@
     border: none;
 }
 
-.mistake-email, .mistake-repeat-password {
+.mistake-email, .mistake-repeat-password, .mistake-register-password {
     display: inline-block;
     margin: 5px 0 22px 0;
     padding: 15px;
