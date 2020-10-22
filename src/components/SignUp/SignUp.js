@@ -10,42 +10,43 @@ class SignUp extends Component {
         errorMessageRepeatPassword: '',
         errorMessagePassword: '',
         errorMessageName: '',
-        error: ''
+        error: '',
     };
 
     onClickRegister = async ()=> {
         //'------------onClickLogin'
+
+        if(!this.validateField('name', this.state.name) || !this.validateField('email', this.state.email) || !this.validateField('password', this.state.password)){
+            this.setState({
+                         errorMessageRequiredFields: 'fields are not filled'
+                    });
+
+            return;
+        }
+
+          if (this.state.errorMessagePassword || this.state.errorMessageEmail || this.state.errorMessageName || this.state.errorMessageRepeatPassword) {
+              return;
+          }
+
         const payload = { name: this.state.name, password: this.state.password, email: this.state.email};//передаем на сервер
 
         await api.registerUser(payload).then(res => {
-            // if(!this.validateNullField) {
-            //     this.state.error = 'error'
-            // } else {
-            //     this.state.error = ''
-            // }
+
            // `user register successfully`, res.data.id
             window.alert('user register successfully');
             this.props.history.push('/login');
 
-        // },  document.getElementById('error').innerText = 'fields are not filled'
-            }, error => this.state.error = "error123 " + error);
+            }, error => {
+            this.setState({
+                error: "registration error "
+            });
+        });
         console.log(this.state.error);
-
     };
-
-
-
-    // validateNullField = (field) => {
-    //     if (null.test(field)){
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // };
 
     onChangeName= e => {
         //'----------onChangeName'
-        if (!this.validateName(e.target.value)) {
+        if (!this.validateField('name', e.target.value)) {
             this.state.errorMessageName = 'Name must include latin letters and numbers';
         } else {
             this.state.errorMessageName = '';
@@ -55,21 +56,42 @@ class SignUp extends Component {
         })
     };
 
-    validateName = (name) => {
-        if (/^[a-zA-Z][a-zA-Z0-9-_\.]{0,20}$/.test(name)){
-            return true;
-        } else {
-            return false;
+    validateField = (type, value) => {
+
+        switch (type) {
+            case 'name':
+                if (/^[a-zA-Z][a-zA-Z0-9-_\.]{0,20}$/.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                }
+                break;
+            case 'email':
+                if (/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                }
+                break;
+            case 'password':
+                if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                }
+                break;
+            default:
+                break;
         }
     };
+
+
 
     onChangeEmail= e => {
        //'----------onChangeEmail'
 
-        const validateResalt = this.validateEmail(e.target.value);
-        console.log(validateResalt, e.target.value);
-        if (!this.validateEmail(e.target.value)) {
-            this.state.errorMessageEmail = 'invalid email';
+        if (!this.validateField('email', e.target.value)) {
+            this.state.errorMessageEmail = 'Invalid email';
         } else {
             this.state.errorMessageEmail = '';
         }
@@ -80,17 +102,10 @@ class SignUp extends Component {
 
     };
 
-    validateEmail = (email) => {
-        if (/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i.test(email)){
-            return true;
-        } else {
-            return false;
-        }
-    };
 
     onChangePassword = e => {
         //'----------onChangePassword'
-        if (!this.validatePassword(e.target.value)) {
+        if (!this.validateField('password', e.target.value)) {
             this.state.errorMessagePassword = 'Password must include lowercase, uppercase latin letters and numbers';
         } else {
             this.state.errorMessagePassword = '';
@@ -100,20 +115,14 @@ class SignUp extends Component {
         })
     };
 
-    validatePassword = (password) => {
-        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)){
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     onChangeRepeatPassword = e => {
         //'----------onChangePassword'
        if (this.state.password === e.target.value){
        this.state.errorMessageRepeatPassword = '';
     } else {
-           this.state.errorMessageRepeatPassword = 'passwords are not the same';
+           this.state.errorMessageRepeatPassword = 'Passwords are not the same';
        }
         this.setState({
             repeatPassword: e.target.value
@@ -136,14 +145,15 @@ class SignUp extends Component {
                             <img src={register} alt="Avatar" className="avatar" />
                         </div>
                         <hr/>
-                        <p className={!this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
+                        <p className={this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
+                        <p className={!this.state.errorMessageRequiredFields ?'error-message' : 'message'}>{this.state.errorMessageRequiredFields}</p>
 
                         <label htmlFor="name"><b>Name</b></label>
-                        <input className='name' type="text" placeholder="Enter Name" name="name" required onChange={(e)=>this.onChangeName(e)}/>
-                        <p className={!this.state.errorMessageName ? 'error-message' : 'message'}>{this.state.errorMessageName}</p>
+                        <input className={this.state.errorMessageName  ? 'mistake-name' : 'name'} type="text" placeholder="Enter Name" name="name" required onChange={(e)=>this.onChangeName(e)}/>
+                        <p className={!this.state.errorMessageName  ? 'error-message' : 'message'}>{this.state.errorMessageName}</p>
 
                             <label htmlFor="email"><b>Email</b></label>
-                            <input className={this.state.errorMessageEmail ? 'mistake-email' : 'email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
+                            <input className={this.state.errorMessageEmail  ? 'mistake-email' : 'email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
                             <p className={!this.state.errorMessageEmail ? 'error-message' : 'message'}>{this.state.errorMessageEmail}</p>
 
                             <label htmlFor="psw"><b>Password</b></label>
@@ -151,8 +161,8 @@ class SignUp extends Component {
                         <p className={!this.state.errorMessagePassword ? 'error-message' : 'message'}>{this.state.errorMessagePassword}</p>
 
                             <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
-                            <input className= {this.state.errorMessageRepeatPassword ? 'mistake-repeat-password' : 'register-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
-                            <p className={this.state.errorMessageRepeatPassword === ''? 'error-message' : 'message'}>{this.state.errorMessageRepeatPassword}</p>
+                            <input className= {this.state.errorMessageRepeatPassword ?  'mistake-repeat-password' : 'register-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
+                            <p className={!this.state.errorMessageRepeatPassword ? 'error-message' : 'message'}>{this.state.errorMessageRepeatPassword}</p>
 
                             <p>By creating an account you agree to our <a href="#">Terms
                                 & Privacy</a>.</p>

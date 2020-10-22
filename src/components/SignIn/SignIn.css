@@ -7,14 +7,30 @@
     border: 1px solid #ccc;
 }
 
+.mistake-login, .mistake-password {
+    display: inline-block;
+    margin: 8px 0;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #f44336;
+    background: #e8d4d7;
+}
+
 .imgcontainer {
     margin: 24px 0 12px 0;
     text-align: center;
 }
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
 
 img.avatar {
     width: 40%;
     border-radius: 50%;
+    animation: spin 30s linear 0s infinite;
 }
 
 .ok, .register {
@@ -30,4 +46,10 @@ img.avatar {
 .ok:hover, .register:hover {
     opacity: 0.8;
 }
+
+/*@media (prefers-reduced-motion: no-preference) {*/
+    /*.avatar {*/
+        /*animation: App-logo-spin infinite 30s linear;*/
+    /*}*/
+/*}*/
 

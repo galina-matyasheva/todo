@@ -7,7 +7,7 @@
     border: none;
 }
 
-.mistake-email, .mistake-repeat-password, .mistake-register-password {
+.mistake-email, .mistake-repeat-password, .mistake-register-password, .mistake-name {
     display: inline-block;
     margin: 5px 0 22px 0;
     padding: 15px;
@@ -73,8 +73,9 @@ hr {
     }
 }
 
-.errorMessage {
+.error-message {
     display: none;
+    color: red;
 }
 
 .message {

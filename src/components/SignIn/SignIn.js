@@ -13,9 +13,17 @@ class signIn extends Component {
         user: {},
     };
 
-
     //обработчик для кнопки ок
     onClickLogin = async () => {
+
+
+        if (!this.state.login || !this.state.password) {
+            this.setState({
+                errorMessageRequiredFields: 'Fields are not filled'
+            });
+
+            return;
+        }
 
         console.log('------------onClickLogin');
 
@@ -36,11 +44,14 @@ class signIn extends Component {
 
             this.props.history.push('/todo');
 
-        }, error => window.alert("error" + error));
+        }, error => {
+            this.setState({
+                error: "Invalid login or password "
+            });
 
-    };
+    },
 
-
+    )};
 
     //передаю изменения в стейт
     onChangeLogin = e => {
@@ -51,8 +62,6 @@ class signIn extends Component {
             login: e.target.value
         })
     };
-
-
 
     onChangePassword = e => {
         //'----------onChangePassword'
@@ -74,8 +83,10 @@ class signIn extends Component {
                 <div className="imgcontainer">
                     <img src={registerForm} alt="Avatar" className="avatar"/>
                 </div>
+                <p className={!this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
+                <p className= 'message'>{this.state.errorMessageRequiredFields}</p>
                 <p><strong>Login:</strong>
-                    <input className='login mistake-login' type='text' maxLength="25" size="40" name="login"
+                    <input className='login' type='text' maxLength="25" size="40" name="login"
                            onChange={(e) => this.onChangeLogin(e)}/></p>
 
                 <p><strong>Password:</strong>
