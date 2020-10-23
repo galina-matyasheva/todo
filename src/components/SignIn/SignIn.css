@@ -16,6 +16,15 @@
     border: 1px solid #f44336;
     background: #e8d4d7;
 }
+.eye {
+    background-image: url("https://cdns.iconmonstr.com/wp-content/assets/preview/2018/96/iconmonstr-eye-thin.png");
+    background-repeat: no-repeat;
+}
+
+.eye-off {
+    background-image: url("https://cdns.iconmonstr.com/wp-content/assets/preview/2018/96/iconmonstr-eye-off-thin.png");
+    background-repeat: no-repeat;
+}
 
 .imgcontainer {
     margin: 24px 0 12px 0;
