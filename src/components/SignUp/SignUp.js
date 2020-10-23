@@ -16,9 +16,9 @@ class SignUp extends Component {
     onClickRegister = async ()=> {
         //'------------onClickLogin'
 
-        if(!this.validateField('name', this.state.name) || !this.validateField('email', this.state.email) || !this.validateField('password', this.state.password)){
+        if(!this.validateField('name', this.state.name) || !this.validateField('email', this.state.email) || !this.validateField('password', this.state.password) || !this.validateField('repeatPassword', this.state.repeatPassword)){
             this.setState({
-                         errorMessageRequiredFields: 'fields are not filled'
+                         errorMessageRequiredFields: 'fields are not filled properly'
                     });
 
             return;
@@ -41,7 +41,7 @@ class SignUp extends Component {
                 error: "registration error "
             });
         });
-        console.log(this.state.error);
+
     };
 
     onChangeName= e => {
@@ -52,7 +52,8 @@ class SignUp extends Component {
             this.state.errorMessageName = '';
         }
         this.setState({
-            name: e.target.value
+            name: e.target.value,
+            errorMessageRequiredFields:''
         })
     };
 
@@ -60,32 +61,18 @@ class SignUp extends Component {
 
         switch (type) {
             case 'name':
-                if (/^[a-zA-Z][a-zA-Z0-9-_\.]{0,20}$/.test(value)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
+                return /^[a-zA-Z][a-zA-Z0-9-_\.]{0,20}$/.test(value);
+
             case 'email':
-                if (/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i.test(value)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
+                return /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i.test(value);
+
             case 'password':
-                if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(value)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
+                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(value);
+
             default:
                 break;
         }
     };
-
-
 
     onChangeEmail= e => {
        //'----------onChangeEmail'
@@ -96,36 +83,43 @@ class SignUp extends Component {
             this.state.errorMessageEmail = '';
         }
         this.setState({
-            email: e.target.value
+            email: e.target.value,
+            errorMessageRequiredFields:''
         })
-
-
     };
-
 
     onChangePassword = e => {
         //'----------onChangePassword'
+
         if (!this.validateField('password', e.target.value)) {
             this.state.errorMessagePassword = 'Password must include lowercase, uppercase latin letters and numbers';
         } else {
             this.state.errorMessagePassword = '';
         }
+        this.state.password = e.target.value;
+        this.validateRepeatPassword(this.state.repeatPassword);
+
         this.setState({
-            password: e.target.value
+            errorMessageRequiredFields:'',
         })
     };
 
-
+    validateRepeatPassword =(value)=> {
+        if (this.state.password === value){
+            this.state.errorMessageRepeatPassword = '';
+        } else {
+            this.state.errorMessageRepeatPassword = 'Passwords are not the same';
+        }
+    };
 
     onChangeRepeatPassword = e => {
         //'----------onChangePassword'
-       if (this.state.password === e.target.value){
-       this.state.errorMessageRepeatPassword = '';
-    } else {
-           this.state.errorMessageRepeatPassword = 'Passwords are not the same';
-       }
+
+       this.validateRepeatPassword(e.target.value);
+
         this.setState({
-            repeatPassword: e.target.value
+            repeatPassword: e.target.value,
+            errorMessageRequiredFields:'',
         })
     };
 
@@ -134,7 +128,6 @@ class SignUp extends Component {
     };
 
     render() {
-
 
         return (
             <div>
@@ -149,19 +142,19 @@ class SignUp extends Component {
                         <p className={!this.state.errorMessageRequiredFields ?'error-message' : 'message'}>{this.state.errorMessageRequiredFields}</p>
 
                         <label htmlFor="name"><b>Name</b></label>
-                        <input className={this.state.errorMessageName  ? 'mistake-name' : 'name'} type="text" placeholder="Enter Name" name="name" required onChange={(e)=>this.onChangeName(e)}/>
+                        <input className={this.state.errorMessageName || this.state.errorMessageRequiredFields ? 'mistake-name' : 'name'} type="text" placeholder="Enter Name" name="name" required onChange={(e)=>this.onChangeName(e)}/>
                         <p className={!this.state.errorMessageName  ? 'error-message' : 'message'}>{this.state.errorMessageName}</p>
 
                             <label htmlFor="email"><b>Email</b></label>
-                            <input className={this.state.errorMessageEmail  ? 'mistake-email' : 'email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
+                            <input className={this.state.errorMessageEmail || this.state.errorMessageRequiredFields ? 'mistake-email' : 'email'} type="text" placeholder="Enter Email" name="email" required onChange={(e)=>this.onChangeEmail(e)}/>
                             <p className={!this.state.errorMessageEmail ? 'error-message' : 'message'}>{this.state.errorMessageEmail}</p>
 
                             <label htmlFor="psw"><b>Password</b></label>
-                            <input className={this.state.errorMessagePassword ? 'mistake-register-password' : 'register-password'} type="password" placeholder="Enter Password" name="psw" required onChange={(e)=>this.onChangePassword(e)}/>
+                            <input className={this.state.errorMessagePassword || this.state.errorMessageRequiredFields ? 'mistake-register-password' : 'register-password'} type="password" placeholder="Enter Password" name="psw" required onChange={(e)=>this.onChangePassword(e)}/>
                         <p className={!this.state.errorMessagePassword ? 'error-message' : 'message'}>{this.state.errorMessagePassword}</p>
 
                             <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
-                            <input className= {this.state.errorMessageRepeatPassword ?  'mistake-repeat-password' : 'register-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
+                            <input className= {this.state.errorMessageRepeatPassword || this.state.errorMessageRequiredFields ?  'mistake-repeat-password' : 'register-password'} type="password" placeholder="Repeat Password" name="psw-repeat" required  onChange={(e)=>this.onChangeRepeatPassword(e)}/>
                             <p className={!this.state.errorMessageRepeatPassword ? 'error-message' : 'message'}>{this.state.errorMessageRepeatPassword}</p>
 
                             <p>By creating an account you agree to our <a href="#">Terms
@@ -177,7 +170,5 @@ class SignUp extends Component {
 
     }
 }
-
-
 
 export default SignUp

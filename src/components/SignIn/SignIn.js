@@ -25,7 +25,7 @@ class signIn extends Component {
             return;
         }
 
-        console.log('------------onClickLogin');
+       // '------------onClickLogin';
 
         const payload = {login: this.state.login, password: this.state.password};//передаем на сервер
 
@@ -37,9 +37,9 @@ class signIn extends Component {
 
             localStorage.setItem('token', res.data.token);// установка токена в сессию
             const decoded = jwt.decode(res.data.token, {complete: true});
-            console.log(decoded, "------decoded");
+            //decoded, "------decoded"
             const userId = decoded.payload.userId;
-            console.log(userId, "----userId");
+            // userId, "----userId"
             localStorage.setItem('userId', userId);
 
             this.props.history.push('/todo');
@@ -48,7 +48,6 @@ class signIn extends Component {
             this.setState({
                 error: "Invalid login or password "
             });
-
     },
 
     )};
@@ -59,7 +58,9 @@ class signIn extends Component {
 
 
         this.setState({
-            login: e.target.value
+            login: e.target.value,
+            errorMessageRequiredFields: '',
+            error: ''
         })
     };
 
@@ -67,7 +68,9 @@ class signIn extends Component {
         //'----------onChangePassword'
 
         this.setState({
-            password: e.target.value
+            password: e.target.value,
+            errorMessageRequiredFields: '',
+            error:''
         })
     };
 
@@ -86,11 +89,11 @@ class signIn extends Component {
                 <p className={!this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
                 <p className= 'message'>{this.state.errorMessageRequiredFields}</p>
                 <p><strong>Login:</strong>
-                    <input className='login' type='text' maxLength="25" size="40" name="login"
+                    <input className={this.state.errorMessageRequiredFields ? 'mistake-login' : 'login'} type='text' maxLength="25" size="40" name="login"
                            onChange={(e) => this.onChangeLogin(e)}/></p>
 
                 <p><strong>Password:</strong>
-                    <input className='password' type="password" maxLength="25" size="40" name="password"
+                    <input className={this.state.errorMessageRequiredFields ? 'mistake-password' : 'password'} type="password" maxLength="25" size="40" name="password"
                            onChange={(e) => this.onChangePassword(e)}/></p>
 
                 <button className='ok' onClick={() => this.onClickLogin()}>OK</button>
