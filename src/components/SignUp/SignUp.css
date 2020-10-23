@@ -6,7 +6,10 @@
     width: 100%;
     background: #f1f1f1;
     border: none;
+    /*box-shadow: inset #ddd 0 0 40px 10px,*/
+    /*#ddd 0 0 24px 12px;*/
     /*z-index: -2;*/
+    box-shadow: -10px 5px 5px 2px #ddd;
 }
 
 .mistake-email, .mistake-repeat-password, .mistake-register-password, .mistake-name {
@@ -14,12 +17,13 @@
     margin: 5px 0 22px 0;
     padding: 15px;
     width: 100%;
-    border: 1px solid #f44336;
+    /*border: 1px solid #f44336;*/
+    border: none;
     background: #e8d4d7;
+    box-shadow: -10px 5px 5px 2px #ddd;
 }
 
 .email:focus, .register-password:focus, .name:focus {
-    background-color: #ddd;
     outline: none;
 }
 
@@ -27,28 +31,49 @@ label[for=email], label[for=psw], label[for=psw-repeat], label[for=remember], la
     color: #000;
     font-weight: bold;
 }
+.register-password {
+    width: 93%;
+    height: 100%;
+    margin-top: 0;
+}
+
+.mistake-repeat-password, .mistake-register-password {
+    height: 50px;
+    width: 100%;
+    margin-top: 0;
+    border: none;
+}
+.block-password {
+    display: flex;
+    background: #f1f1f1;
+    height: 50px;
+    margin-bottom: 22px;
+    /*box-shadow: inset #ddd 0 0 40px 10px,*/
+    /*#ddd 0 0 24px 12px;*/
+    box-shadow: -10px 5px 5px 2px #ddd;
+}
+
+.block-password-error {
+    display: flex;
+    background: #e8d4d7;
+    height: 50px;
+    margin-bottom: 22px;
+}
 
 .eye {
-    position: relative;
-    display: block;
-    background-image: url("https://img.icons8.com/officexs/72/visible.png");
     background-repeat: no-repeat;
-    background-position: right;
-    background-size: 6%;
+    background-position: center;
+    background-size: 62%;
+    width: 55px;
     height: 23px;
 }
 
-
+.eye-on {
+    background-image: url("https://img.icons8.com/officexs/72/visible.png");
+}
 
 .eye-off {
-    position: relative;
-    display: block;
     background-image: url("https://img.icons8.com/officexs/72/invisible.png");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: 6%;
-    height: 23px;
-    /*bottom: 57px;*/
 }
 
 hr {
