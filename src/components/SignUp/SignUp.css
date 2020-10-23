@@ -1,10 +1,12 @@
 .register-password, .email, .name {
     display: inline-block;
+    /*position: relative;*/
     margin: 5px 0 22px 0;
     padding: 15px;
     width: 100%;
     background: #f1f1f1;
     border: none;
+    /*z-index: -2;*/
 }
 
 .mistake-email, .mistake-repeat-password, .mistake-register-password, .mistake-name {
@@ -24,6 +26,29 @@
 label[for=email], label[for=psw], label[for=psw-repeat], label[for=remember], label[for=name]{
     color: #000;
     font-weight: bold;
+}
+
+.eye {
+    position: relative;
+    display: block;
+    background-image: url("https://img.icons8.com/officexs/72/visible.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 6%;
+    height: 23px;
+}
+
+
+
+.eye-off {
+    position: relative;
+    display: block;
+    background-image: url("https://img.icons8.com/officexs/72/invisible.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 6%;
+    height: 23px;
+    /*bottom: 57px;*/
 }
 
 hr {
