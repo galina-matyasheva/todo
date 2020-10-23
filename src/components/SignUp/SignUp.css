@@ -1,0 +1,86 @@
+.register-password, .email, .name {
+    display: inline-block;
+    margin: 5px 0 22px 0;
+    padding: 15px;
+    width: 100%;
+    background: #f1f1f1;
+    border: none;
+}
+
+.mistake-email, .mistake-repeat-password, .mistake-register-password, .mistake-name {
+    display: inline-block;
+    margin: 5px 0 22px 0;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #f44336;
+    background: #e8d4d7;
+}
+
+.email:focus, .register-password:focus, .name:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+label[for=email], label[for=psw], label[for=psw-repeat], label[for=remember], label[for=name]{
+    color: #000;
+    font-weight: bold;
+}
+
+hr {
+    margin-bottom: 25px;
+    border: 1px solid #f1f1f1;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.register-btn {
+    margin: 8px 0;
+    padding: 14px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.register-btn:hover {
+    opacity: 1;
+}
+
+.cancel-btn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+.cancel-btn, .sign-up-btn {
+    float: left;
+    width: 50%;
+}
+
+@media screen and (max-width: 525px) {
+
+    .register-container {
+        font-size: 22px;
+    }
+
+    .cancel-btn, .sign-up-btn {
+        width: 100%;
+    }
+}
+
+.error-message {
+    display: none;
+    color: red;
+}
+
+.message {
+    display: block;
+    color: red;
+    font-weight: bold;
+}
+

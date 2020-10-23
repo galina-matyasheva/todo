@@ -10,21 +10,21 @@ body {
 }
 
 body {
+    margin: 0 auto;
+    width: 550px;
     font: 14px 'Helvetica Neue', Helvetica, sans-serif;
     line-height: 1.4em;
     background-color: #f5f5f5;
     color: #333333;
-    width: 550px;
-    margin: 0 auto;
 }
 
 /*top*/
 .app h1{
-   text-align: center;
-    color: #e8d4d7;
     font-size: 100px;
     line-height: 20px;
     font-weight: 100;
+    text-align: center;
+    color: #e8d4d7;
 }
 
 .note-task, button {
@@ -42,10 +42,10 @@ button {
     color: #fff;
 }
 .button-mark {
+    position: absolute;
     text-align: center;
     border: none;
     opacity: 0;
-    position: absolute;
     z-index: 1000000;
 }
 label {
@@ -53,10 +53,10 @@ label {
 }
 
 .button-mark + label {
+    position: absolute;
     width: 60px;
     height: 34px;
     font-size: 0;
-    position: absolute;
     top: -52px;
     left: -13px;
     -webkit-transform: rotate(90deg);
@@ -65,46 +65,49 @@ label {
 
 .button-mark + label:before {
     content: '❯';
+    padding: 10px 27px 10px 85px;
     font-size: 22px;
     color: #e6e6e6;
-    padding: 10px 27px 10px 85px;
 }
+
 .button-mark-false {
+    position: absolute;
     text-align: center;
     border: none;
     opacity: 0;
-    position: absolute;
     z-index: 1000000;
 }
 
 .button-mark-false + label {
-    width: 60px;
-    height: 34px;
-    font-size: 0;
     position: absolute;
     top: -52px;
     left: -13px;
+    width: 60px;
+    height: 34px;
+    font-size: 0;
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
 }
 
 .button-mark-false + label:before {
     content: '❯';
+    padding: 10px 27px 10px 85px;
     font-size: 22px;
     color: #727272;
-    padding: 10px 27px 10px 85px;
 }
 
 ul {
-    list-style: none;
     padding: 0;
     margin: 0;
+    list-style: none;
 }
+
 .note-list li {
     display: flex;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
+    position: relative;
     justify-content: start;
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
@@ -115,7 +118,6 @@ ul {
     -ms-flex-align: center;
     text-align: left;
     background-color: #fff;
-    position: relative;
     font-size: 24px;
     border-bottom: 1px solid #ededed;
     width: 550px;
@@ -124,14 +126,14 @@ ul {
 
 
 .note-header-task {
+    padding: 16px 16px 16px 60px;
+    width: 550px;
+    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
     border-left: none;
     border-right: none;
     border-top: none;
     font-size: 24px;
     color:#4d4d57;
-    padding: 16px 16px 16px 60px;
-    width: 550px;
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
 }
 
 .note-header-task::placeholder{
@@ -145,12 +147,11 @@ ul {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
+    padding-left: 20px;
     align-items: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
-    padding-left: 20px;
-
 }
 
 .checkbox-round label {
@@ -181,12 +182,12 @@ ul {
 .checkbox+label::before {
     content: '';
     display: inline-block;
+    margin-right: 0.5em;
     width: 1em;
     height: 1em;
     flex-shrink: 0;
     flex-grow: 0;
     border: 1px solid #e9e9e9;
-    margin-right: 0.5em;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 50% 50%;
@@ -198,44 +199,33 @@ ul {
     background-image: url("https://cdn.icon-icons.com/icons2/894/PNG/128/Tick_Mark_icon-icons.com_69146.png");
 }
 
-.checkbox-round {
-    /*max-height: 100%;*/
-    /*height: auto;*/
-}
-
 .list-input {
-    /*height: 100%;*/
-    /*height: 60px;*/
-    text-align: left;
     display: block;
+    padding-right: 35px;
+    width: 493px;
+    text-align: left;
     line-height: 1.2;
     word-break: break-all;
     transition: color 0.4s;
     font-size: 24px;
-    width: 493px;
-    padding-right: 35px;
     resize: none;
     overflow: hidden;
     font-family: 'Helvetica Neue', Helvetica, sans-serif;
-
 }
 
-
 .read-only-note {
-    border: none;
     padding-left: 20px;
+    border: none;
     word-break: break-all;
     outline: none;
-
 }
 
 .edit-note {
+    padding-left: 20px;
+    width: 492px;
     border: 1px solid #999;
     box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    /*min-height: 60px;*/
-    width: 492px;
-    padding-left: 20px;
     overflow: hidden;
     outline: none;
 }
@@ -246,12 +236,12 @@ ul {
 
 .close {
     position: absolute;
+    margin: auto 0;
     top: 5px;
     right: 10px;
     bottom: 0px;
     width: 40px;
     height: 40px;
-    margin: auto 0;
     font-size: 30px;
     transition: color 0.2s ease-out;
 }
@@ -272,13 +262,14 @@ button:focus {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
+    position: relative;
+    margin-bottom: 10px;
+    padding: 20px 15px;
     align-items: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
-    position: relative;
     color: #777;
-    padding: 20px 15px;
     height: 20px;
     text-align: center;
     background-color: #fff;
@@ -347,4 +338,17 @@ a.active {
 
 }
 
+.logout {
+    margin: 8px 0;
+    padding: 14px 20px;
+    background-color: #41AD48;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.logout:hover {
+    opacity: 0.8;
+}
 

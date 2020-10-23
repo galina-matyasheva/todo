@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import NoteList from './NoteList'
-import "./App.css"
-import Note from "./Note"
-import Filter from "./Filter"
-import api from '../api'
+import './Todo.css'
+import Note from './Note'
+import Filter from './Filter'
+import api from '../../api'
 
 
 
@@ -15,13 +15,13 @@ class Todo extends Component {
         allItems: [],
         activeElem: 'All',
         editableKey: '',
-        rememberMe: false
+        rememberMe: false,
+        userId: ''
     };
 
 //вводим новое значение
     //получает значение из поля ввода и устанавливает состояние и объект currentItem
     handleInput = e => {
-        // console.log('Hello Input')
         const itemText = e.target.value;
         const currentItem = {text: itemText, key: ''};//входные данные
         this.setState({
@@ -33,17 +33,19 @@ class Todo extends Component {
     addItem = async e => {
 
         e.preventDefault();//не перезагружать приложение после ввода текста от addItem
-        // console.log("Hello Add Item", this.state.currentItem);
+        // "Hello Add Item", this.state.currentItem;
         const newItem = {...this.state.currentItem, checked:false}; //получение значения
         if (newItem.text !== '') {
-            //console.log(newItem);
-            //const items = [...this.state.items, newItem];//деструктуриз не пустого массива. добавляется новый элемент
-            const allItems = [...this.state.allItems, newItem];
+            //newItem
+            const allItems = [...this.state.allItems, newItem];//деструктуриз не пустого массива. добавляется новый элемент
 
-            const payload = { text: newItem.text, completed: newItem.checked};//передаем на сервер
+            const userId = localStorage.getItem('userId');
+            //userId
+
+            const payload = { text: newItem.text, completed: newItem.checked, userId: userId};//передаем на сервер
 
             await api.createNote(payload).then(res => {
-                console.log(`note inserted successfully` + res.data.id);
+               // `note inserted successfully` + res.data.id
                 newItem.key = res.data.id;
                 this.setState ({
                     items: this.filter(allItems),
@@ -52,13 +54,13 @@ class Todo extends Component {
                 });
             }, error => window.alert("error" + error));
 
-            // this.filter();
         }
     };
 
+
     //удаляем элемент
     deleteItem = async key => {
-        console.log('delete item with key: ' + key);
+       // 'delete item with key: ' + key
         const filteredAllItems = this.state.allItems.filter(item => {
             return item.key !== key
         });
@@ -67,16 +69,16 @@ class Todo extends Component {
             allItems: filteredAllItems,
         });
         await api.deleteNote(key).then(res => {
-            console.log(`note deleted successfully`)
+           // `note deleted successfully`
         }, error => window.alert("error" + error));
     };
 
     //очищаем все выполненные задачи
 
     onClearClick = async items => {
-        console.log('delete all item');
+       // 'delete all item'
         await api.deleteClearNotes(items).then(res => {
-            console.log(`note deleted all successfully`);
+           // `note deleted all successfully`
             const filteredAllItems = this.state.allItems.filter(item => {
                 return !item.checked;
             });
@@ -86,13 +88,13 @@ class Todo extends Component {
                 items: this.filter(filteredAllItems)
             });
         }, error => window.alert("error" + error));
-        // this.filter();
+
     };
 
     //переключатель checkbox для вычеркивания выполненных задач
     handleOnClicked = async item => {
         item.checked = !item.checked;
-        console.log('handle on clicked checkbox');
+       // 'handle on clicked checkbox'
         const foundItem = this.state.allItems.find((itemParam) => itemParam.key === item.key);
         foundItem.checked = item.checked;
         const payload = {
@@ -102,14 +104,14 @@ class Todo extends Component {
         this.setState({items: this.filter(this.state.allItems)});
 
         await api.updateNote(item.key, payload).then(res => {
-            console.log(`note updated successfully`);
+            //`note updated successfully`
 
         }, error => window.alert("error" + error));
     };
 
     //выделить все
     toggleAll = async () => {
-        // console.log('toggleAll');
+        // 'toggleAll'
         const checkedAll = this.state.allItems.every((element)=>{return element.checked === true});
 
         this.state.allItems.map((item) => {
@@ -127,14 +129,13 @@ class Todo extends Component {
                 completed: eachItem.checked
             };
             const promise = api.updateNote(eachItem.key, payload).then(res => {
-                console.log(`note updated successfully`);
+               // `note updated successfully`
             }, error => window.alert("error" + error));
             promises.push(promise);
         });
         this.setState({items: this.filter(this.state.allItems)});
         await Promise.all(promises);
 
-        //this.setState({items: this.state.items});
     };
 
     // проверка всех элементов на вычеркивание (стрелка)
@@ -177,7 +178,7 @@ class Todo extends Component {
             };
             this.setState({items: this.filter(this.state.allItems)});
             await api.updateNote(foundItem.key, payload).then(res => {
-                console.log(`note updated successfully`);
+               // `note updated successfully`
 
             }, error => window.alert("error" + error));
         }
@@ -187,7 +188,7 @@ class Todo extends Component {
     };
 
     onDoubleClickInput = (e, key)=> {
-        // console.log(key);
+        // key
         this.setState({
             editableKey: key,
         });
@@ -195,7 +196,7 @@ class Todo extends Component {
 
     //изменить текст задачи
     handleEdit = async (key, value)=> {
-        console.log(this.state.editableKey + ' handle edit ' + key);
+       // this.state.editableKey + ' handle edit ' + key
         if (this.state.editableKey && this.state.editableKey.includes(key)) {
             const foundItem = this.state.allItems.find((itemParam) => itemParam.key === key);
             if (foundItem.text !== value) {
@@ -229,11 +230,11 @@ class Todo extends Component {
 
     //All
     onAllClick = async () => {
-        console.log("AllClick");
+       // console.log("AllClick");
 
-        await api.getNoteList().then(res => {
-            console.log(`notes loaded successfully`);
-            console.log(res.data.data);
+        await api.getNoteList(localStorage.getItem('userId')).then(res => {
+           // `notes loaded successfully`
+           // res.data.data
             const newAllItems = res.data.data.map((note) => {
                 return {
                     key: note._id,
@@ -241,27 +242,18 @@ class Todo extends Component {
                     checked: note.completed
                 }
             });
-            console.log(newAllItems);
+          //  newAllItems
             this.setState({allItems: newAllItems, items: newAllItems, activeElem: 'All'});
         }, error => window.alert("error" + error));
     };
 
     onActiveClick= async () => {
 
-        // const filteredItems = this.state.allItems.filter(item => {
-        //     return !item.checked;
-        // });
-        //
-        // this.setState({
-        //     items: filteredItems,
-        //     activeElem: 'Active'
-        // })
-
-
         const completed = false;
-        await api.getFilter(completed).then(res => {
-            console.log(`notes loaded in Active filter`);
-            console.log(res.data.data);
+        const userId = localStorage.getItem('userId');
+        await api.getFilter(userId,completed).then(res => {
+            //`notes loaded in Active filter`
+          //  res.data.data
             const newItems = res.data.data.map((note) => {
                 return {
                     key: note._id,
@@ -271,7 +263,7 @@ class Todo extends Component {
 
             });
 
-            console.log(newItems);
+           // newItems
             this.setState({
                 allItems: newItems,
                 items: newItems,
@@ -284,19 +276,11 @@ class Todo extends Component {
 
     onCompletedClick= async () => {
 
-        // const filteredItems = this.state.allItems.filter(item => {
-        //    return item.checked;
-        // });
-        //
-        // this.setState({
-        //     items: filteredItems,
-        //     activeElem: 'Completed'
-        // })
-
         const completed = true;
-        await api.getFilter(completed).then(res => {
-            console.log(`notes loaded in Completed filter`);
-            console.log(res.data.data);
+        const userId = localStorage.getItem('userId');
+        await api.getFilter(userId, completed).then(res => {
+           // `notes loaded in Completed filter`
+          //  res.data.data
             const newItems = res.data.data.map((note) => {
                 return {
                     key: note._id,
@@ -304,7 +288,7 @@ class Todo extends Component {
                     checked: note.completed
                 }
             });
-            console.log(newItems);
+            //newItems
             this.setState({
                 allItems: newItems,
                 items: newItems,
@@ -316,8 +300,8 @@ class Todo extends Component {
 
 
     loadNotes = async () => {
-        console.log('load notes');
-        console.log(window.location.href);
+       // 'load notes'
+       // window.location.href
         if (window.location.href.includes('#/active')) {
             await this.onActiveClick();
         } else if (window.location.href.includes('#/completed')) {
@@ -329,7 +313,21 @@ class Todo extends Component {
 
     inputElement = React.createRef();//ссылка на элемент ввода для его получения
 
+    onLogoutClick = () => {
+       // '---------onLogoutClick'
+        localStorage.setItem('token', undefined);
+        localStorage.setItem('userId', undefined);
+        this.props.history.push('/login');
+    };
+
     render() {
+       // localStorage.getItem('userId'), 'userId'
+        if (localStorage.getItem('userId') == 'undefined'){
+          //  'not authorized'
+            alert("you are not authorized");
+            this.props.history.push('/login');
+            return null;
+        }
         return (
             <div className='app'>
                 <h1>todos</h1>
@@ -347,7 +345,7 @@ class Todo extends Component {
                 <ul className='note-list'>
 
                     {this.state.items.map((item, i )=> {
-                        // console.log(item, 'ITEMSS')
+                        // item, 'ITEMSS'
                         return (
                             <Note
                                 key ={`note--${i}`}
@@ -379,6 +377,7 @@ class Todo extends Component {
                     checkForOneThroughElement = {this.checkForOneThroughElement}//вычеркнутый элемент для появления кнопки completed
                 /> }
 
+                <button className='logout' onClick= {()=> this.onLogoutClick()}>LOGOUT</button>
             </div>
         )
     }

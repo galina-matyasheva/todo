@@ -1,25 +1,40 @@
 import React, {Component} from 'react'
-import Todo from './components/Todo'
-import {Switch, Route} from 'react-router-dom'
-import loginRegister from './loginRegister'
-import SignUp from "./SignUp";
+import Todo from './components/TodoList/Todo'
+import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom'
+import signIn from './components/SignIn/SignIn'
+import SignUp from "./components/SignUp/SignUp";
 
 
 class App extends Component {
 
+    checkAuth = () =>{
+        console.log("checkAuth");
+        const token = sessionStorage.getItem('token');
+        console.log('token', token);
+        return !!token
+    };
+
     render() {
 
-        return(
-
+        return (
+            <BrowserRouter>
                 <Switch>
-                    <Route path='/todo' component={Todo} />
-                <Route path='/login' component={loginRegister}/>
-                <Route path='/register' component={SignUp}/>
-
+                    <Route path='/todo' component={Todo}/>
+                    <Route path='/login' component={signIn}/>
+                    <Route path='/register' component={SignUp}/>
+                    <Route path="/"  render={props => (
+                        this.checkAuth() ? (
+                            <Redirect to={{ pathname: '/todo'}} />
+                        ) : (
+                            <Redirect to={{ pathname: '/login'}} />
+                        )
+                    )}/>
                 </Switch>
+            </BrowserRouter>
 
         )
     }
 }
 
-export default App
+
+export default App;

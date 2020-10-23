@@ -5,14 +5,32 @@ const api = axios.create({
 });
 
 
+api.interceptors.request.use(
+    config => {
+       // 'axios interceptor'
+
+        const token = localStorage.getItem('token');
+
+        //token, 'axios interceptor';
+            config.headers.authorization = `Bearer ${token}`;
+            config.headers.token = token;
+
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
 export const createNote = payload => api.post(`/note`, payload);
-export const getNoteList = () => api.get(`/notes`);
+export const getNoteList = (userId) => api.get(`/notes/${userId}`);
 export const updateNote = (id, payload) => api.put(`/note/${id}`, payload);
 export const deleteNote = id => api.delete(`/note/${id}`);
 export const getNoteById = id => api.get(`/note/${id}`);
 export const  deleteClearNotes = () => api.delete(`/notes`);
-export const  getFilter = completed => api.get(`/note/filter/${completed}`);
+export const  getFilter = (userId, completed) => api.get(`/note/filter/${userId}/${completed}`);
 export const login = payload => api.post(`/user/login`, payload);
+export const registerUser = payload => api.post(`/user/registerUser`, payload);
 
 const apis = {
     createNote,
@@ -22,7 +40,8 @@ const apis = {
     getNoteById,
     deleteClearNotes,
     getFilter,
-    login
+    login,
+    registerUser
 };
 
 export default apis
