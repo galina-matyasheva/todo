@@ -11,6 +11,7 @@ class signIn extends Component {
         login: '',
         password: '',
         user: {},
+        isPasswordHidden: true
     };
 
     //обработчик для кнопки ок
@@ -94,9 +95,15 @@ class signIn extends Component {
                            onChange={(e) => this.onChangeLogin(e)}/></p>
 
                 <p><strong>Password:</strong>
+                    <div className='block-password-sign-in'>
                     <input className={this.state.errorMessageRequiredFields ? 'mistake-password' : 'password'}
-                           type="password" maxLength="25" size="40" name="password"
-                           onChange={(e) => this.onChangePassword(e)}/></p>
+                           type={this.state.isPasswordHidden ? 'password' : 'text'} maxLength="25" size="40" name="password"
+                           onChange={(e) => this.onChangePassword(e)}/>
+                    <p className={this.state.isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
+                       onClick={() => this.setState({isPasswordHidden: !this.state.isPasswordHidden})}>    </p>
+                    </div>
+                </p>
+
 
                 <button className='ok' onClick={() => this.onClickLogin()}>OK</button>
                 <button className='register' onClick={() => this.onClickSignUp()}>SIGN UP</button>
