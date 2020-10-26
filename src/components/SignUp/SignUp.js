@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import "./SignUp.css"
 import register from './SignUp.jpg'
 import api from "../../api";
+import DialogAlert from "../Dialog"
 
 
 class SignUp extends Component {
@@ -12,13 +13,22 @@ class SignUp extends Component {
         errorMessageName: '',
         error: '',
         isPasswordHidden: true,
-        isRepeatPasswordHidden: true
+        isRepeatPasswordHidden: true,
+        openDialog: false
     };
 
     onClickRegister = async () => {
         //'------------onClickLogin'
 
         if (!this.validateField('name', this.state.name) || !this.validateField('email', this.state.email) || !this.validateField('password', this.state.password) || !this.validateField('repeatPassword', this.state.repeatPassword)) {
+            // console.log('invalid data');
+            // console.log('name', this.validateField('name', this.state.name));
+            // console.log('email', this.validateField('email', this.state.email));
+            // console.log('password', this.validateField('email', this.state.password));
+            // console.log('password value', this.state.password);
+            // console.log('repeatPassword', this.validateField('repeatPassword', this.state.repeatPassword));
+
+
             this.setState({
                 errorMessageRequiredFields: 'fields are not filled properly'
             });
@@ -35,12 +45,17 @@ class SignUp extends Component {
         await api.registerUser(payload).then(res => {
 
             // `user register successfully`, res.data.id
-            window.alert('user register successfully');
-            this.props.history.push('/login');
+            //window.alert('user register successfully');
+            this.showDialog("user register successfully", () => {
+                this.props.history.push('/login');
+            });
+
 
         }, error => {
+            //window.alert("registration error ");
+            this.showDialog("user with such name or email already existed", undefined);
             this.setState({
-                error: "registration error "
+                error: "registration error " + error
             });
         });
 
@@ -70,6 +85,9 @@ class SignUp extends Component {
 
             case 'password':
                 return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(value);
+
+            case 'repeatPassword':
+                return this.validateRepeatPassword(value);
 
             default:
                 break;
@@ -112,8 +130,10 @@ class SignUp extends Component {
         if (this.state.password === value) {
             this.state.errorMessageRepeatPassword = '';
             this.state.errorMessageRequiredFields = '';
+            return true;
         } else {
             this.state.errorMessageRepeatPassword = 'Passwords are not the same';
+            return false;
         }
     };
 
@@ -132,10 +152,29 @@ class SignUp extends Component {
         this.props.history.push('/login');
     };
 
+    showDialog = (dialogText, onDialogClose) => {
+
+        this.setState({
+            openDialog: true,
+            dialogText: dialogText,
+            onDialogClose: onDialogClose
+        })
+    };
+
+    handleCloseDialog = () => {
+        if (this.state.onDialogClose) {
+            this.state.onDialogClose();
+        }
+        this.setState({
+            openDialog: false
+        })
+    };
+
     render() {
 
         return (
             <div>
+
                 <div className="register-container">
                     <h1>Sign Up</h1>
                     <p>Please fill in this form to create an account.</p>
@@ -161,14 +200,19 @@ class SignUp extends Component {
                     <p className={!this.state.errorMessageEmail ? 'error-message' : 'message'}>{this.state.errorMessageEmail}</p>
 
                     <label htmlFor="psw"><b>Password</b> </label>
-                    <input
-                        className={this.state.errorMessagePassword || this.state.errorMessageRequiredFields ? 'mistake-register-password' : 'register-password'}
-                        type={this.state.isPasswordHidden ? 'password' : 'text'} placeholder="Enter Password" name="psw"
-                        required
-                        onChange={(e) => this.onChangePassword(e)}
-                    />
-                    <span className={this.state.isPasswordHidden ? 'eye e' : 'eye-off e'}
-                               onClick={() => this.setState({isPasswordHidden: !this.state.isPasswordHidden})}>    </span>
+
+                    <div className='block-password'>
+                        <input
+                            className={this.state.errorMessagePassword || this.state.errorMessageRequiredFields ? 'mistake-register-password' : 'register-password'}
+                            type={this.state.isPasswordHidden ? 'password' : 'text'} placeholder="Enter Password"
+                            name="psw"
+                            required
+                            onChange={(e) => this.onChangePassword(e)}
+                        />
+                        <p className={this.state.isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
+                           onClick={() => this.setState({isPasswordHidden: !this.state.isPasswordHidden})}> </p>
+                    </div>
+
                     {/*<p  onClick={()=>this.setState ({isPasswordHidden: !this.state.isPasswordHidden})}>Show password</p>*/}
 
 
@@ -176,13 +220,15 @@ class SignUp extends Component {
 
                     <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
 
-
-                       <input
-                           className={this.state.errorMessageRepeatPassword || this.state.errorMessageRequiredFields ? 'mistake-repeat-password' : 'register-password'}
-                           type={this.state.isRepeatPasswordHidden ? 'password' : 'text'} placeholder="Repeat Password" name="psw-repeat" required
-                           onChange={(e) => this.onChangeRepeatPassword(e)}/>
-                         <span className={this.state.isRepeatPasswordHidden ? 'eye e' : 'eye-off e'}
-                          onClick={() => this.setState({isRepeatPasswordHidden: !this.state.isRepeatPasswordHidden})}> </span>
+                    <div className='block-password'>
+                        <input
+                            className={this.state.errorMessageRepeatPassword || this.state.errorMessageRequiredFields ? 'mistake-repeat-password' : 'register-password'}
+                            type={this.state.isRepeatPasswordHidden ? 'password' : 'text'} placeholder="Repeat Password"
+                            name="psw-repeat" required
+                            onChange={(e) => this.onChangeRepeatPassword(e)}/>
+                        <p className={this.state.isRepeatPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
+                           onClick={() => this.setState({isRepeatPasswordHidden: !this.state.isRepeatPasswordHidden})}> </p>
+                    </div>
                     <p className={!this.state.errorMessageRepeatPassword ? 'error-message' : 'message'}>{this.state.errorMessageRepeatPassword}</p>
 
                     <p>By creating an account you agree to our <a href="#">Terms
@@ -193,6 +239,15 @@ class SignUp extends Component {
                         <button className="register-btn sign-up-btn" onClick={() => this.onClickRegister()}>Sign Up
                         </button>
                     </div>
+
+
+                    <DialogAlert
+                        showDialog={this.showDialog}
+                        handleCloseDialog={this.handleCloseDialog}
+                        isOpen={this.state.openDialog}
+                        onClose={this.handleCloseDialog}
+                        dialogText={this.state.dialogText}
+                    />
                 </div>
             </div>
         )

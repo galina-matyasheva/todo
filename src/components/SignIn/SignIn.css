@@ -1,29 +1,31 @@
 .login, .password {
     display: inline-block;
-    margin: 8px 0;
     padding: 12px 20px;
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid #ccc;
+    background: #f1f1f1;
+    border: none;
+    box-shadow: -10px 5px 5px 2px #ddd;
+    height: 50px;
 }
 
 .mistake-login, .mistake-password {
     display: inline-block;
-    margin: 8px 0;
     padding: 12px 20px;
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid #f44336;
+    border: none;
     background: #e8d4d7;
-}
-.eye {
-    background-image: url("https://cdns.iconmonstr.com/wp-content/assets/preview/2018/96/iconmonstr-eye-thin.png");
-    background-repeat: no-repeat;
+    box-shadow: -10px 5px 5px 2px #ddd;
+    height: 50px;
 }
 
-.eye-off {
-    background-image: url("https://cdns.iconmonstr.com/wp-content/assets/preview/2018/96/iconmonstr-eye-off-thin.png");
-    background-repeat: no-repeat;
+.block-password-sign-in {
+    display: flex;
+    background: #f1f1f1;
+    height: 50px;
+    margin-bottom: 22px;
+    box-shadow: -10px 5px 5px 2px #ddd;
 }
 
 .imgcontainer {
@@ -34,7 +36,6 @@
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
 }
-
 
 img.avatar {
     width: 40%;
@@ -48,17 +49,25 @@ img.avatar {
     width: 100%;
     cursor: pointer;
     color: white;
-    background-color: #41AD48;
     border: none;
+    background-color: #4CAF50;
+    background-image: linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%), radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto;
+    background-position: 200% 0, 0 0;
+    box-shadow: rgba(0,0,0,.3) 0 2px 5px;
+}
+
+.ok:active, .register:active {
+    top: 1px;
+    box-shadow: none;
 }
 
 .ok:hover, .register:hover {
     opacity: 0.8;
+    transition: .5s linear;
+    background-position: -200% 0, 0 0;
 }
 
-/*@media (prefers-reduced-motion: no-preference) {*/
-    /*.avatar {*/
-        /*animation: App-logo-spin infinite 30s linear;*/
-    /*}*/
-/*}*/
+
 

@@ -25,15 +25,6 @@ class Note extends Component {
                             onChange={(event) => this.props.handleEdit(entry.key, event.target.value)}
                             onDoubleClick={(event) => this.props.onDoubleClickInput(event,`${entry.key}-border-elem`)}
                         />
-
-                        {/*<textarea*/}
-                            {/*id = {`${entry.key}-border-elem`}*/}
-                            {/*className= {this.props.editableKey === `${entry.key}-border-elem` ? 'list-input edit-note': 'list-input read-only-note'}*/}
-                            {/*style={{color: entry.checked && (this.props.editableKey !== `${entry.key}-border-elem`)? '#D9D9D9' : '#4d4d57'}}*/}
-                            {/*value={entry.text}*/}
-                            {/*onChange={(event) => this.props.handleEdit(entry.key, event.target.value)}*/}
-                            {/*onDoubleClick={(event) => this.props.onDoubleClickInput(event,`${entry.key}-border-elem`)}*/}
-                        {/*/>*/}
                         <button type="button" className={this.props.editableKey === `${entry.key}-border-elem` ? 'close-none':'close'} onClick={() => this.props.deleteItem(entry.key)}>&times;</button>
                     </div>
             </li>
