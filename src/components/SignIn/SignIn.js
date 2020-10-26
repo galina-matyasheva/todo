@@ -1,115 +1,111 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import "./SignIn.css"
 import registerForm from './SignIn.jpg'
 import api from "../../api";
 import jwt from "jsonwebtoken";
 
+export const SignIn = ({history}) => {
 
-class signIn extends Component {
-
-    state = {
-        login: '',
-        password: '',
-        user: {},
-        isPasswordHidden: true
-    };
+    const [password, setPassword] = useState('');
+    const [login, setLogin] = useState('');
+    //const [user, setUser] = useState({});
+    const [isPasswordHidden,setPasswordHidden] = useState(true);
+    const [errorsText, setErrorsText] = useState({errorMessageRequiredFields: '', backendError: ''});
 
     //обработчик для кнопки ок
-    onClickLogin = async () => {
+    const onClickLogin = async () => {
+        if (!login || !password) {
 
-
-        if (!this.state.login || !this.state.password) {
-            this.setState({
-                errorMessageRequiredFields: 'Fields are not filled'
-            });
-
+                setErrorsText({
+                   ...errorsText,//переменная для возврата предыдущего значения
+                    errorMessageRequiredFields: 'Fields are not filled'
+                });
             return;
         }
 
-        // '------------onClickLogin';
-
-        const payload = {login: this.state.login, password: this.state.password};//передаем на сервер
+        const payload = {login: login, password: password};//передаем на сервер
 
         await api.login(payload).then(res => {
-                //`user logged successfully`
-                //res.data.userId, '------userId'
-                //localStorage.setItem('userId', res.data.userId);
-                //res.data.token, '------token'
-
                 localStorage.setItem('token', res.data.token);// установка токена в сессию
                 const decoded = jwt.decode(res.data.token, {complete: true});
-                //decoded, "------decoded"
                 const userId = decoded.payload.userId;
-                // userId, "----userId"
                 localStorage.setItem('userId', userId);
-
-                this.props.history.push('/todo');
-
+                history.push('/todo');
             }, error => {
-                this.setState({
-                    error: "Invalid login or password "
-                });
+
+            setErrorsText({
+                ...errorsText,//переменная для возврата предыдущего значения
+                backendError: "Invalid login or password "
+            });
             },
         )
     };
 
     //передаю изменения в стейт
-    onChangeLogin = e => {
-        //'----------onChangeLogin'
+    const onChangeLogin = e => {
 
-
-        this.setState({
-            login: e.target.value,
+        setErrorsText({
+            ...errorsText,//переменная для возврата предыдущего значения
             errorMessageRequiredFields: '',
-            error: ''
-        })
-    };
+            backendError: "",
 
-    onChangePassword = e => {
-        //'----------onChangePassword'
+        });
 
-        this.setState({
-            password: e.target.value,
-            errorMessageRequiredFields: '',
-            error: ''
-        })
-    };
-
-    onClickSignUp = () => {
-        // '---------onClickSignUp'
-        this.props.history.push('/register');
-    };
-
-
-    render() {
-        return (
-            <div>
-                <div className="imgcontainer">
-                    <img src={registerForm} alt="Avatar" className="avatar"/>
-                </div>
-                <p className={!this.state.error ? 'error-message' : 'message'}>{this.state.error}</p>
-                <p className='message'>{this.state.errorMessageRequiredFields}</p>
-                <p><strong>Login:</strong>
-                    <input className={this.state.errorMessageRequiredFields ? 'mistake-login' : 'login'} type='text'
-                           maxLength="25" size="40" name="login"
-                           onChange={(e) => this.onChangeLogin(e)}/></p>
-
-                <p><strong>Password:</strong>
-                    <div className='block-password-sign-in'>
-                    <input className={this.state.errorMessageRequiredFields ? 'mistake-password' : 'password'}
-                           type={this.state.isPasswordHidden ? 'password' : 'text'} maxLength="25" size="40" name="password"
-                           onChange={(e) => this.onChangePassword(e)}/>
-                    <p className={this.state.isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
-                       onClick={() => this.setState({isPasswordHidden: !this.state.isPasswordHidden})}>    </p>
-                    </div>
-                </p>
-
-
-                <button className='ok' onClick={() => this.onClickLogin()}>OK</button>
-                <button className='register' onClick={() => this.onClickSignUp()}>SIGN UP</button>
-            </div>
+        setLogin(
+            e.target.value
         )
-    }
-}
+    };
 
-export default signIn
+    const onChangePassword = e => {
+
+        setErrorsText({
+            ...errorsText,//переменная для возврата предыдущего значения
+            errorMessageRequiredFields: '',
+            backendError: "",
+
+        });
+
+        setPassword(
+            e.target.value
+        )
+    };
+
+    const onClickSignUp = () => {
+        history.push('/register');
+
+    setPasswordHidden (
+        !isPasswordHidden
+    )};
+
+
+    return (
+        <div className='SignIn'>
+            <div className="imgcontainer">
+                <img src={registerForm} alt="Avatar" className="avatar"/>
+            </div>
+            <p className={!errorsText.backendError ? 'error-message' : 'message'}>{errorsText.backendError}</p>
+            <p className='message'>{errorsText.errorMessageRequiredFields}</p>
+            <p><strong>Login:</strong>
+                <input className={errorsText.errorMessageRequiredFields ? 'mistake-login' : 'login'} type='text'
+                       maxLength="25" size="40" name="login"
+                       onChange={(e) => onChangeLogin(e)}/></p>
+
+            <p><strong>Password:</strong>
+                <div className='block-password-sign-in'>
+                    <input className={errorsText.errorMessageRequiredFields ? 'mistake-password' : 'password'}
+                           type={isPasswordHidden ? 'password' : 'text'} maxLength="25" size="40"
+                           name="password"
+                           onChange={(e) => onChangePassword(e)}/>
+                    <p className={isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
+                       onClick={() => setPasswordHidden(!isPasswordHidden)}> </p>
+                </div>
+            </p>
+            <button className='ok' onClick={onClickLogin}>OK</button>
+            <button className='register' onClick={onClickSignUp}>SIGN UP</button>
+        </div>
+    )
+};
+
+export default SignIn
+
+

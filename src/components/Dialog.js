@@ -27,9 +27,7 @@ export const DialogAlert = ({isOpen, handleCloseDialog, dialogText}) => {
                 </DialogActions>
             </Dialog>
         )
-
-    }
-;
+    };
 
 export default DialogAlert
 
