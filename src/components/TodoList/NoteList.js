@@ -1,33 +1,34 @@
-import React, {Component} from 'react'
+import React from 'react'
 
-class NoteList extends Component {
+export const NoteList = ({allItems,toggleAllColor, toggleAll, addItem, inputElement, currentItem, handleInput }) => {
 
+    return (
+        <div className='note-list-main'>
+            <div className='note-header'>
 
-    render() {
+                {allItems.length === 0 ? null :
+                    <button className={toggleAllColor() ? 'button-mark-false' : 'button-mark'}
+                            onClick={() => {
+                                toggleAll()
+                            }}>mark</button>}
+                <label htmlFor="button-mark">.</label>
 
-        return (
-            <div className='note-list-main'>
-                <div className='note-header'>
+                <form className='note-header-form' onSubmit={addItem}>
 
-                    {this.props.allItems.length === 0 ? null : <button className= {this.props.toggleAllColor() ? 'button-mark-false': 'button-mark'}  onClick={()=>{this.props.toggleAll()}}>mark</button>}
-                    <label for="button-mark">.</label>
+                    <input
+                        className='note-header-task'
+                        type='text'
+                        placeholder='What needs to be done?'
+                        ref={inputElement}
+                        value={currentItem.text}
+                        onChange={handleInput}
+                    />
+                </form>
 
-                    <form className='note-header-form' onSubmit={this.props.addItem}>
-
-                        <input
-                            className='note-header-task'
-                            type='text'
-                            placeholder='What needs to be done?'
-                            ref={this.props.inputElement}
-                            value = {this.props.currentItem.text}
-                            onChange={this.props.handleInput}
-                        />
-                    </form>
-
-                </div>
             </div>
+        </div>
     )
-    }
-}
+};
 
 export default NoteList
+

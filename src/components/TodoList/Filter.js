@@ -1,24 +1,24 @@
-import React, {Component} from "react"
+import React from 'react'
 
+export const Filter = ({length, onAllClick, onActiveClick, onCompletedClick, activeElem, checkForOneThroughElement, onClearClick}) => {
 
-class Filter extends Component {
-
-    render() {
-
-        return (
-            <div className="footer">
+    return (
+        <div className="footer">
                 <span className="todo-count">
-                    <strong>{this.props.length + ' item left'}</strong>
+                    <strong>{length + ' item left'}</strong>
                 </span>
-                <ul className="filters">
-                    <li  onClick={this.props.onAllClick} ><a  className={this.props.activeElem === 'All' ? 'active' : ''} href="#">All</a></li>
-                    <li onClick={this.props.onActiveClick}><a className={this.props.activeElem === 'Active' ? 'active' : ''} href="#/active">Active</a></li>
-                    <li onClick={this.props.onCompletedClick}><a className={this.props.activeElem === 'Completed' ? 'active' : ''} href="#/completed">Completed</a></li>
-                </ul>
-                {!this.props.checkForOneThroughElement() ? null: <button className="button-clear" type="button" onClick={()=>this.props.onClearClick()}> Clear completed</button>}
-            </div>
-        )
-    }
-}
+            <ul className="filters">
+                <li onClick={onAllClick}><a className={activeElem === 'All' ? 'active' : ''} href="#">All</a></li>
+                <li onClick={onActiveClick}><a className={activeElem === 'Active' ? 'active' : ''}
+                                               href="#/active">Active</a></li>
+                <li onClick={onCompletedClick}><a className={activeElem === 'Completed' ? 'active' : ''}
+                                                  href="#/completed">Completed</a></li>
+            </ul>
+            {!checkForOneThroughElement() ? null :
+                <button className="button-clear" type="button" onClick={() => onClearClick()}> Clear completed</button>}
+        </div>
+    )
+};
 
- export default Filter
+export default Filter
+

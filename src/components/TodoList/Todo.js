@@ -121,6 +121,7 @@ class Todo extends Component {
             } else {
                 item.checked = true;
             }
+            return
         });
 
         const promises = [];
@@ -160,7 +161,7 @@ class Todo extends Component {
     }
 
 // Вызывается до рендера
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         document.addEventListener('click', this.handleClickOutside, false);
     }
 
@@ -227,6 +228,9 @@ class Todo extends Component {
                 return items.filter(item => {
                     return item.checked;
                 });
+
+            default:
+                break;
         }
     };
 
@@ -324,7 +328,7 @@ class Todo extends Component {
 
     render() {
         // localStorage.getItem('userId'), 'userId'
-        if (localStorage.getItem('userId') == 'undefined') {
+        if (localStorage.getItem('userId') === 'undefined') {
             //  'not authorized'
             alert("you are not authorized");
             this.props.history.push('/login');
@@ -379,7 +383,7 @@ class Todo extends Component {
                     checkForOneThroughElement={this.checkForOneThroughElement}//вычеркнутый элемент для появления кнопки completed
                 />}
 
-                <button className='logout' onClick={() => this.onLogoutClick()}>LOGOUT</button>
+                <button className='logout btn-all' onClick={() => this.onLogoutClick()}>LOGOUT</button>
             </div>
         )
     }

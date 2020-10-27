@@ -8,17 +8,17 @@ export const SignIn = ({history}) => {
 
     const [password, setPassword] = useState('');
     const [login, setLogin] = useState('');
-    const [isPasswordHidden,setPasswordHidden] = useState(true);
+    const [isPasswordHidden, setPasswordHidden] = useState(true);
     const [errorsText, setErrorsText] = useState({errorMessageRequiredFields: '', backendError: ''});
 
     //обработчик для кнопки ок
     const onClickLogin = async () => {
         if (!login || !password) {
 
-                setErrorsText({
-                   ...errorsText,//переменная для возврата предыдущего значения
-                    errorMessageRequiredFields: 'Fields are not filled'
-                });
+            setErrorsText({
+                ...errorsText,//переменная для возврата предыдущего значения
+                errorMessageRequiredFields: 'Fields are not filled'
+            });
             return;
         }
 
@@ -32,10 +32,10 @@ export const SignIn = ({history}) => {
                 history.push('/todo');
             }, error => {
 
-            setErrorsText({
-                ...errorsText,//переменная для возврата предыдущего значения
-                backendError: "Invalid login or password "
-            });
+                setErrorsText({
+                    ...errorsText,//переменная для возврата предыдущего значения
+                    backendError: "Invalid login or password "
+                });
             },
         )
     };
@@ -72,9 +72,10 @@ export const SignIn = ({history}) => {
     const onClickSignUp = () => {
         history.push('/register');
 
-    setPasswordHidden (
-        !isPasswordHidden
-    )};
+        setPasswordHidden(
+            !isPasswordHidden
+        )
+    };
 
 
     return (
@@ -84,7 +85,7 @@ export const SignIn = ({history}) => {
             </div>
             <p className={!errorsText.backendError ? 'error-message' : 'message'}>{errorsText.backendError}</p>
             <p className='message'>{errorsText.errorMessageRequiredFields}</p>
-            <div><strong>Login:</strong>
+            <div className='field-text'><strong>Login:</strong>
                 <input className={errorsText.errorMessageRequiredFields ? 'mistake-login' : 'login'} type='text'
                        maxLength="25" size="40" name="login"
                        onChange={(e) => onChangeLogin(e)}/></div>
@@ -96,11 +97,11 @@ export const SignIn = ({history}) => {
                            name="password"
                            onChange={(e) => onChangePassword(e)}/>
                     <p className={isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
-                       onClick={() => setPasswordHidden(!isPasswordHidden)}> </p>
+                       onClick={() => setPasswordHidden(!isPasswordHidden)}></p>
                 </div>
             </div>
-            <button className='ok' onClick={onClickLogin}>OK</button>
-            <button className='register' onClick={onClickSignUp}>SIGN UP</button>
+            <button className='ok btn-all' onClick={onClickLogin}>OK</button>
+            <button className='register btn-all' onClick={onClickSignUp}>SIGN UP</button>
         </div>
     )
 };

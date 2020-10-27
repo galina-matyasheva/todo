@@ -204,7 +204,7 @@ export const SignUp = ({history}) => {
                         onChange={(e) => onChangePassword(e)}
                     />
                     <p className={isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
-                       onClick={() => setPasswordHidden({isPasswordHidden: !isPasswordHidden})}> </p>
+                       onClick={() => setPasswordHidden(!isPasswordHidden)}> </p>
                 </div>
 
                 <p className={!errorsText.errorMessagePassword ? 'error-message' : 'message'}>{errorsText.errorMessagePassword}</p>
@@ -218,7 +218,7 @@ export const SignUp = ({history}) => {
                         name="psw-repeat" required
                         onChange={(e) => onChangeRepeatPassword(e)}/>
                     <p className={isRepeatPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
-                       onClick={() => setRepeatPasswordHidden({isRepeatPasswordHidden: !isRepeatPasswordHidden})}> </p>
+                       onClick={() => setRepeatPasswordHidden(!isRepeatPasswordHidden)}> </p>
                 </div>
                 <p className={!errorsText.errorMessageRepeatPassword ? 'error-message' : 'message'}>{errorsText.errorMessageRepeatPassword}</p>
 
@@ -226,8 +226,8 @@ export const SignUp = ({history}) => {
                     & Privacy</a>.</p>
 
                 <div className="clearfix">
-                    <button className="register-btn cancel-btn" onClick={() => onClickCancel()}>Cancel</button>
-                    <button className="register-btn sign-up-btn" onClick={() => onClickRegister()}>Sign Up
+                    <button className="register-btn cancel-btn btn-all" onClick={() => onClickCancel()}>Cancel</button>
+                    <button className="register-btn sign-up-btn btn-all" onClick={() => onClickRegister()}>Sign Up
                     </button>
                 </div>
 
