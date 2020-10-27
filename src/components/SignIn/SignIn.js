@@ -8,7 +8,6 @@ export const SignIn = ({history}) => {
 
     const [password, setPassword] = useState('');
     const [login, setLogin] = useState('');
-    //const [user, setUser] = useState({});
     const [isPasswordHidden,setPasswordHidden] = useState(true);
     const [errorsText, setErrorsText] = useState({errorMessageRequiredFields: '', backendError: ''});
 
@@ -85,12 +84,12 @@ export const SignIn = ({history}) => {
             </div>
             <p className={!errorsText.backendError ? 'error-message' : 'message'}>{errorsText.backendError}</p>
             <p className='message'>{errorsText.errorMessageRequiredFields}</p>
-            <p><strong>Login:</strong>
+            <div><strong>Login:</strong>
                 <input className={errorsText.errorMessageRequiredFields ? 'mistake-login' : 'login'} type='text'
                        maxLength="25" size="40" name="login"
-                       onChange={(e) => onChangeLogin(e)}/></p>
+                       onChange={(e) => onChangeLogin(e)}/></div>
 
-            <p><strong>Password:</strong>
+            <div><strong>Password:</strong>
                 <div className='block-password-sign-in'>
                     <input className={errorsText.errorMessageRequiredFields ? 'mistake-password' : 'password'}
                            type={isPasswordHidden ? 'password' : 'text'} maxLength="25" size="40"
@@ -99,7 +98,7 @@ export const SignIn = ({history}) => {
                     <p className={isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
                        onClick={() => setPasswordHidden(!isPasswordHidden)}> </p>
                 </div>
-            </p>
+            </div>
             <button className='ok' onClick={onClickLogin}>OK</button>
             <button className='register' onClick={onClickSignUp}>SIGN UP</button>
         </div>
