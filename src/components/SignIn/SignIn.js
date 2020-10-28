@@ -97,7 +97,7 @@ export const SignIn = ({history}) => {
                            name="password"
                            onChange={(e) => onChangePassword(e)}/>
                     <p className={isPasswordHidden ? 'eye-on eye' : 'eye-off eye'}
-                       onClick={() => setPasswordHidden(!isPasswordHidden)}></p>
+                       onClick={() => setPasswordHidden(!isPasswordHidden)}> </p>
                 </div>
             </div>
             <button className='ok btn-all' onClick={onClickLogin}>OK</button>

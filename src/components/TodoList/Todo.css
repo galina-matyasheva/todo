@@ -172,7 +172,9 @@ ul {
     z-index: -1;
     opacity: 0;
 }
-
+.checkbox-none+label::before {
+    border: none !important;
+}
 .checkbox+label {
     display: inline-flex;
     align-items: center;
